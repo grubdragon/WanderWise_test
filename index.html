@@ -1,0 +1,3437 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WanderWise — Your AI Travel Companion</title>
+  
+  <!-- Inter & Poppins Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icon Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Custom Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#14B8A6', // Teal
+            navy: {
+              800: '#1F1F35',
+              900: '#1A1A2E', // Dark Navy
+              950: '#0F0F1A',
+            },
+            coral: {
+              400: '#FFA089',
+              500: '#FF8E72', // Coral Accent
+              600: '#E87D62',
+            },
+            lightgrey: '#F8F9FA',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            poppins: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    :root {
+      --teal: #14B8A6;
+      --navy: #1A1A2E;
+      --coral: #FF8E72;
+      --light: #F8F9FA;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .font-poppins {
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    /* Elegant soft animations */
+    .view-transition {
+      transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+    }
+    
+    /* CSS Landscape Illustration updated to professional gradient layout */
+    .css-landscape {
+      background: linear-gradient(135deg, var(--navy) 0%, #16213e 50%, var(--teal) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .css-landscape .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.3;
+    }
+    .css-landscape .glow {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(20,184,166,0.15) 0%, transparent 60%);
+      filter: blur(40px);
+    }
+    .css-landscape .mountain {
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /* Professional Polish Theme Custom Utilities */
+    .btn-teal {
+      background-color: var(--teal);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-teal:hover {
+      filter: brightness(1.1);
+    }
+    .btn-coral {
+      background-color: var(--coral);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-coral:hover {
+      filter: brightness(1.1);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, var(--navy) 0%, #16213e 50%, var(--teal) 100%);
+    }
+    .feature-card {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      border-color: rgba(20, 184, 166, 0.2);
+    }
+    .pricing-card {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .placeholder-box {
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      color: #64748b;
+      font-size: 13px;
+      background: #f1f5f9;
+      transition: all 0.3s ease;
+    }
+    .active-tab {
+      background-color: rgba(20, 184, 166, 0.1) !important;
+      color: var(--teal) !important;
+      border-left: 4px solid var(--teal) !important;
+      border-radius: 0px !important;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 overflow-x-hidden">
+
+  <!-- ============================================== -->
+  <!-- VIEW 1: LANDING PAGE                           -->
+  <!-- ============================================== -->
+  <div id="landing-view" class="view-transition flex flex-col min-h-screen">
+    
+    <!-- Sticky Navbar -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-navy-900/90 backdrop-blur-md border-b border-white/10 text-white py-4">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <!-- Logo -->
+        <a href="#hero" class="flex items-center space-x-2 text-2xl font-bold font-poppins text-white tracking-tight">
+          <span class="p-2 bg-primary/20 rounded-lg text-primary border border-primary/20">
+            <i data-lucide="compass" class="w-6 h-6 animate-spin-slow"></i>
+          </span>
+          <span>Wander<span class="text-primary">Wise</span></span>
+        </a>
+        
+        <!-- Desktop Nav Links -->
+        <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+          <a href="#features" class="text-gray-300 hover:text-primary transition">Features</a>
+          <a href="#how-it-works" class="text-gray-300 hover:text-primary transition">How It Works</a>
+          <a href="#pricing" class="text-gray-300 hover:text-primary transition">Pricing</a>
+          <a href="#testimonials" class="text-gray-300 hover:text-primary transition">Reviews</a>
+        </nav>
+        
+        <!-- CTA -->
+        <div class="hidden md:flex items-center space-x-4">
+          <button onclick="enterApp()" class="px-5 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium shadow-lg shadow-primary/25 transition transform hover:-translate-y-0.5 cursor-pointer">
+            Get Started
+          </button>
+        </div>
+        
+        <!-- Hamburger Menu Button -->
+        <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-300 hover:text-white focus:outline-none">
+          <i data-lucide="menu" class="w-6 h-6" id="burger-icon"></i>
+        </button>
+      </div>
+      
+      <!-- Mobile Dropdown -->
+      <div id="mobile-menu" class="hidden md:hidden bg-navy-900 border-b border-white/5 px-4 pt-2 pb-6 space-y-3">
+        <a href="#features" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-primary text-base font-medium">Features</a>
+        <a href="#how-it-works" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-primary text-base font-medium">How It Works</a>
+        <a href="#pricing" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-primary text-base font-medium">Pricing</a>
+        <a href="#testimonials" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-primary text-base font-medium">Reviews</a>
+        <button onclick="enterApp(); toggleMobileMenu();" class="w-full mt-2 px-5 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg font-semibold text-center block shadow-md shadow-primary/25">
+          Get Started
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="css-landscape min-h-screen flex items-center pt-24 pb-16 text-white relative">
+      <!-- Starry Background Elements (Pure CSS Art) -->
+      <div class="star w-1 h-1 top-[15%] left-[10%]"></div>
+      <div class="star w-1 h-1 top-[25%] left-[45%] opacity-65"></div>
+      <div class="star w-1 h-1 top-[40%] left-[80%]"></div>
+      <div class="star w-1.5 h-1.5 top-[12%] left-[70%] opacity-80"></div>
+      <div class="star w-1 h-1 top-[60%] left-[25%] opacity-40"></div>
+      
+      <!-- Glowing Clouds/Borealis in CSS -->
+      <div class="glow w-[400px] h-[400px] -top-20 -left-10"></div>
+      <div class="glow w-[600px] h-[580px] -bottom-30 -right-20"></div>
+      <div class="glow w-[300px] h-[300px] top-60 right-[40%] opacity-40"></div>
+      
+      <!-- Pure CSS Mountain Landscape Layers -->
+      <div class="absolute bottom-0 left-0 right-0 h-44 z-10 pointer-events-none overflow-hidden select-none">
+        <!-- Far back mountains (navy-800) -->
+        <svg viewBox="0 0 1440 320" class="absolute bottom-0 w-full h-full min-w-[1000px] z-10" preserveAspectRatio="none">
+          <path fill="#252542" fill-opacity="0.5" d="M0,160L180,240L360,120L540,260L720,160L900,240L1080,180L1260,280L1440,200L1440,320L1260,320L1080,320L900,320L720,320L540,320L360,320L180,320L0,320Z"></path>
+        </svg>
+        <!-- Middle layer beach curves & city lines (primary/teal-900) -->
+        <svg viewBox="0 0 1440 320" class="absolute -bottom-6 w-full h-full min-w-[1000px] z-20" preserveAspectRatio="none">
+          <path fill="#14B8A6" fill-opacity="0.15" d="M0,224L120,202.7C240,181,480,139,720,149.3C960,160,1200,224,1320,256L1440,288L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path>
+        </svg>
+        <!-- Main coral sunset wave -->
+        <svg viewBox="0 0 1440 320" class="absolute -bottom-12 w-full h-[80%] min-w-[1000px] z-30" preserveAspectRatio="none">
+          <path fill="#FF8E72" fill-opacity="0.1" d="M0,192L240,160C480,128,960,64,1200,112L1440,160L1440,320L1200,320C960,320,480,320,240,320L0,320Z"></path>
+        </svg>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full text-center lg:text-left">
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
+          <!-- Text Core -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-1.5 text-xs font-semibold text-primary border border-white/10 uppercase tracking-widest">
+              <span class="w-2 h-2 rounded-full bg-coral-500 animate-ping"></span>
+              <span>Discover the Smart Way to Wander</span>
+            </div>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-poppins tracking-tight leading-none text-white">
+              Your AI-Powered <br>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#4FD1C5] to-coral-500">
+                Travel Companion
+              </span>
+            </h1>
+            <p class="text-lg text-gray-300 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+              Plan immersive custom itineraries, manage budgets with smart rings, and consult Globi — your digital guide who unlocks local secrets for you.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-4 pt-4">
+              <button onclick="enterApp()" class="w-full sm:w-auto px-8 py-4 bg-primary hover:bg-primary/95 text-white font-semibold rounded-xl text-lg shadow-lg shadow-primary/30 transition transform hover:-translate-y-1 inline-flex items-center justify-center space-x-2 cursor-pointer">
+                <span>Plan Your First Trip</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+              <a href="#features" class="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-xl text-lg border border-white/10 transition inline-flex items-center justify-center space-x-2">
+                <span>Explore Features</span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Abstract Visual Mockup in CSS -->
+          <div class="lg:col-span-5 hidden lg:block relative">
+            <div class="w-full max-w-[420px] mx-auto bg-gradient-to-tr from-[#2A2A47] to-[#1C1C30] p-6 rounded-3xl border border-white/10 shadow-2xl relative">
+              <div class="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
+                <div class="flex items-center space-x-2">
+                  <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                  <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                  <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                </div>
+                <span class="text-xs text-gray-400">wanderwise_panel.sh</span>
+              </div>
+              <div class="space-y-4 font-mono text-xs text-teal-400">
+                <p class="text-gray-400">> Loading Globí AI core...</p>
+                <div class="p-3 bg-navy-950/80 rounded-lg text-gray-300 space-y-2 border border-white/5">
+                  <p class="font-bold text-coral-400"><i data-lucide="sparkles" class="w-3.5 h-3.5 inline mr-1 mb-0.5"></i> Custom Suggestion:</p>
+                  <p>"Skip the busy tourist train. Grab the electric scooter route down Amalfi cliffs around 5:15 PM for an intense golden sunset!"</p>
+                </div>
+                <div class="flex items-center justify-between text-[11px] text-gray-400">
+                  <span class="flex items-center"><i data-lucide="map-pin" class="w-3 h-3 mr-1 text-primary"></i> Itinerary generated</span>
+                  <span class="text-xs font-semibold px-2 py-0.5 bg-primary/20 text-primary rounded-full">Completed</span>
+                </div>
+              </div>
+              
+              <!-- Float Cards representing budget ring -->
+              <div class="absolute -right-8 -bottom-6 bg-gradient-to-br from-primary to-teal-600 p-4 rounded-2xl shadow-xl flex items-center space-x-3 text-white border border-white/10">
+                <div class="p-2 bg-white/10 rounded-lg">
+                  <i data-lucide="wallet" class="w-5 h-5 text-white"></i>
+                </div>
+                <div>
+                  <p class="text-[10px] text-white/70">Savings Ring</p>
+                  <p class="text-sm font-bold font-poppins">Saved $240.50</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 Feature Cards Grid -->
+    <section id="features" class="py-24 bg-gray-50 text-gray-900 border-t border-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+          <h2 class="text-xs font-bold text-primary tracking-widest uppercase font-poppins">Intelligent Core Capabilities</h2>
+          <p class="text-3xl sm:text-4xl font-extrabold font-poppins text-navy-900 tracking-tight">
+            Engineered For Modern Travellers
+          </p>
+          <p class="text-gray-500 font-light">
+            Ditch the bulky spreadsheets. WanderWise automates your destination maps, budget, and chats in real time.
+          </p>
+        </div>
+        
+        <!-- Grid Items -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- Card 1 -->
+          <div class="bg-white p-8 rounded-2xl border border-gray-100 hover:border-primary/20 hover:shadow-xl hover:shadow-gray-200/50 transition duration-300 flex flex-col justify-between group">
+            <div class="space-y-4">
+              <span class="p-4 bg-primary/10 text-primary rounded-xl inline-block group-hover:scale-110 transition duration-300">
+                <i data-lucide="calendar" class="w-6 h-6"></i>
+              </span>
+              <h3 class="text-xl font-bold font-poppins text-navy-900">AI Trip Planner</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Generate custom Day-by-day routes and sights configured to your exact tempo, mood, and travel group style.
+              </p>
+            </div>
+            <div class="pt-6">
+              <span class="text-xs font-bold text-primary group-hover:underline inline-flex items-center cursor-pointer" onclick="enterApp()">Plan Now <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-1"></i></span>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-white p-8 rounded-2xl border border-gray-100 hover:border-primary/20 hover:shadow-xl hover:shadow-gray-200/50 transition duration-300 flex flex-col justify-between group">
+            <div class="space-y-4">
+              <span class="p-4 bg-[#FFEEEA] text-[#FF8E72] rounded-xl inline-block group-hover:scale-110 transition duration-300">
+                <i data-lucide="map" class="w-6 h-6"></i>
+              </span>
+              <h3 class="text-xl font-bold font-poppins text-navy-900">City Explorer</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Unlock safe back-alley culinary spots, unique history viewpoints, and real-time community events as you walk.
+              </p>
+            </div>
+            <div class="pt-6">
+              <span class="text-xs font-bold text-[#FF8E72] group-hover:underline inline-flex items-center cursor-pointer" onclick="enterApp()">Explore Sights <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-1"></i></span>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-white p-8 rounded-2xl border border-gray-100 hover:border-primary/20 hover:shadow-xl hover:shadow-gray-200/50 transition duration-300 flex flex-col justify-between group">
+            <div class="space-y-4">
+              <span class="p-4 bg-[#EAFBF7] text-primary rounded-xl inline-block group-hover:scale-110 transition duration-300">
+                <i data-lucide="pie-chart" class="w-6 h-6"></i>
+              </span>
+              <h3 class="text-xl font-bold font-poppins text-navy-900">Smart Budget Tracker</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Set total spending boundaries. Watch your customized budget progress ring update on foods and stays.
+              </p>
+            </div>
+            <div class="pt-6">
+              <span class="text-xs font-bold text-primary group-hover:underline inline-flex items-center cursor-pointer" onclick="enterApp()">Track Spending <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-1"></i></span>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="bg-white p-8 rounded-2xl border border-gray-100 hover:border-primary/20 hover:shadow-xl hover:shadow-gray-200/50 transition duration-300 flex flex-col justify-between group">
+            <div class="space-y-4">
+              <span class="p-4 bg-navy-900/10 text-navy-900 rounded-xl inline-block group-hover:scale-110 transition duration-300">
+                <i data-lucide="message-square" class="w-6 h-6"></i>
+              </span>
+              <h3 class="text-xl font-bold font-poppins text-navy-900">AI Concierge Globi</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Your personal AI guide. Translate languages, handle local currencies, and manage airport changes on demand.
+              </p>
+            </div>
+            <div class="pt-6">
+              <span class="text-xs font-bold text-navy-900 group-hover:underline inline-flex items-center cursor-pointer" onclick="enterApp()">Meet Globi <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-1"></i></span>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="bg-white p-8 rounded-2xl border border-gray-100 hover:border-primary/20 hover:shadow-xl hover:shadow-gray-200/50 transition duration-300 flex flex-col justify-between group">
+            <div class="space-y-4">
+              <span class="p-4 bg-[#FFF6EA] text-yellow-600 rounded-xl inline-block group-hover:scale-110 transition duration-300">
+                <i data-lucide="globe" class="w-6 h-6"></i>
+              </span>
+              <h3 class="text-xl font-bold font-poppins text-navy-900">Travel Insights</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Check local safety scores, emergency hotlines, visa alerts, and smart packing suggestions for any country.
+              </p>
+            </div>
+            <div class="pt-6">
+              <span class="text-xs font-bold text-yellow-600 group-hover:underline inline-flex items-center cursor-pointer" onclick="enterApp()">View Insights <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-1"></i></span>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="bg-white p-8 rounded-2xl border border-gray-100 hover:border-primary/20 hover:shadow-xl hover:shadow-gray-200/50 transition duration-300 flex flex-col justify-between group">
+            <div class="space-y-4">
+              <span class="p-4 bg-purple-50 text-purple-600 rounded-xl inline-block group-hover:scale-110 transition duration-300">
+                <i data-lucide="mail" class="w-6 h-6"></i>
+              </span>
+              <h3 class="text-xl font-bold font-poppins text-navy-900">Email Itineraries</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                Export and email customized PDF summaries of your trips directly to your co-travelers or calendars.
+              </p>
+            </div>
+            <div class="pt-6">
+              <span class="text-xs font-bold text-purple-600 group-hover:underline inline-flex items-center cursor-pointer" onclick="enterApp()">Export Direct <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-1"></i></span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4-step Timeline -->
+    <section id="how-it-works" class="py-24 bg-white border-t border-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-2xl mx-auto mb-20 space-y-3">
+          <h2 class="text-xs font-bold text-primary tracking-widest uppercase font-poppins">Seamless Journey Map</h2>
+          <p class="text-3xl sm:text-4xl font-extrabold font-poppins text-navy-900 tracking-tight">How It Works</p>
+          <p class="text-gray-500 font-light">Four incredibly easy steps to craft and organize your complete smart adventure.</p>
+        </div>
+        
+        <!-- Timeline Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+          
+          <!-- Vector Arrow Connector on Desktop -->
+          <div class="hidden lg:block absolute top-14 left-0 right-0 h-0.5 bg-gray-100 z-0"></div>
+          
+          <!-- Step 1 -->
+          <div class="space-y-4 relative z-10 bg-white p-4">
+            <div class="w-12 h-12 rounded-xl bg-primary text-white font-bold font-poppins flex items-center justify-center text-lg shadow-lg shadow-primary/20">
+              1
+            </div>
+            <h3 class="text-lg font-bold font-poppins text-navy-900">Set Preferences</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Define your destination, vacation length, budget scale, and primary travel theme like foodie, nature, or pure history.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="space-y-4 relative z-10 bg-white p-4">
+            <div class="w-12 h-12 rounded-xl bg-[#FF8E72] text-white font-bold font-poppins flex items-center justify-center text-lg shadow-lg shadow-[#FF8E72]/20">
+              2
+            </div>
+            <h3 class="text-lg font-bold font-poppins text-navy-900">Create Smart Itinerary</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Our AI processes flight metrics, weather alerts, and localized guides to generate day-by-day itineraries instantly.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="space-y-4 relative z-10 bg-white p-4">
+            <div class="w-12 h-12 rounded-xl bg-navy-900 text-white font-bold font-poppins flex items-center justify-center text-lg shadow-lg shadow-navy-900/20">
+              3
+            </div>
+            <h3 class="text-lg font-bold font-poppins text-navy-900">Track & Adjust</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Log daily food expenses or change coordinates on-the-fly inside the App Shell. Globi updates your layout.
+            </p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="space-y-4 relative z-10 bg-white p-4">
+            <div class="w-12 h-12 rounded-xl bg-teal-600 text-white font-bold font-poppins flex items-center justify-center text-lg shadow-lg shadow-teal-600/20">
+              4
+            </div>
+            <h3 class="text-lg font-bold font-poppins text-navy-900">Go Wander!</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Travel relaxed. Export details to PDF or access your interactive workspace live from your tablet, laptop, or phone.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3-tier Pricing Section -->
+    <section id="pricing" class="py-24 bg-gray-50 text-gray-900 border-t border-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-20 space-y-3">
+          <h2 class="text-xs font-bold text-primary tracking-widest uppercase font-poppins">Simple, Transparent Tiers</h2>
+          <p class="text-3xl sm:text-4xl font-extrabold font-poppins text-navy-900 tracking-tight">Pricing Plans</p>
+          <p class="text-gray-500 font-light">Choose the best path for your travel habits. Cancel and switch anytime.</p>
+        </div>
+        
+        <!-- Pricing Grid -->
+        <div class="grid md:grid-cols-3 gap-8 items-stretch">
+          
+          <!-- Free Plan Card -->
+          <div class="bg-white p-8 rounded-2xl border border-gray-100 flex flex-col justify-between">
+            <div class="space-y-6">
+              <div>
+                <h3 class="text-lg font-bold font-poppins text-gray-500 uppercase tracking-wider">Free</h3>
+                <div class="mt-4 flex items-baseline">
+                  <span class="text-4xl font-extrabold font-poppins">$0</span>
+                  <span class="ml-1 text-sm text-gray-400">/ forever</span>
+                </div>
+              </div>
+              <p class="text-gray-500 text-xs">Essential tracking tools for casual backpackers.</p>
+              <ul class="space-y-3.5 text-sm text-gray-600">
+                <li class="flex items-center"><i data-lucide="check" class="w-4.5 h-4.5 text-primary mr-2"></i> 3 Standard AI plannings</li>
+                <li class="flex items-center"><i data-lucide="check" class="w-4.5 h-4.5 text-primary mr-2"></i> Daily budget logging</li>
+                <li class="flex items-center"><i data-lucide="check" class="w-4.5 h-4.5 text-primary mr-2"></i> Standard packing checkmarks</li>
+                <li class="flex items-center text-gray-300"><i data-lucide="x" class="w-4.5 h-4.5 text-gray-300 mr-2"></i> Unlimited Globi concierge</li>
+              </ul>
+            </div>
+            <button onclick="enterApp()" class="w-full mt-8 py-3 bg-gray-100 hover:bg-gray-200 text-navy-900 font-semibold rounded-xl text-center block transition cursor-pointer">
+              Get Started
+            </button>
+          </div>
+
+          <!-- Explorer Plan Card -->
+          <div class="bg-navy-900 p-8 rounded-2xl text-white relative flex flex-col justify-between shadow-xl shadow-navy-900/20 transform md:-translate-y-2 border-2 border-primary">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-[11px] font-bold tracking-widest uppercase py-1 px-4 rounded-full">
+              Highly Suggested
+            </div>
+            <div class="space-y-6">
+              <div>
+                <h3 class="text-lg font-bold font-poppins text-primary uppercase tracking-wider">Explorer</h3>
+                <div class="mt-4 flex items-baseline">
+                  <span class="text-4xl font-extrabold font-poppins text-white">$9.99</span>
+                  <span class="ml-1 text-sm text-gray-300">/ month</span>
+                </div>
+              </div>
+              <p class="text-gray-300 text-xs text-light font-light">Ultimate combo of budgeting toolkits and AI travel concierge.</p>
+              <ul class="space-y-3.5 text-sm text-gray-200">
+                <li class="flex items-center"><i data-lucide="check" class="w-4.5 h-4.5 text-primary mr-2"></i> Unlimited dynamic AI plannings</li>
+                <li class="flex items-center"><i data-lucide="check" class="w-4.5 h-4.5 text-primary mr-2"></i> Responsive budget ring analytics</li>
+                <li class="flex items-center"><i data-lucide="check" class="w-4.5 h-4.5 text-primary mr-2"></i> Full Globi chat responses (100 daily)</li>
+                <li class="flex items-center"><i data-lucide="check" class="w-4.5 h-4.5 text-primary mr-2"></i> CSV itinerary email summaries</li>
+              </ul>
+            </div>
+            <button onclick="enterApp()" class="w-full mt-8 py-3 bg-primary hover:bg-primary/95 text-white font-semibold rounded-xl text-center block transition shadow-lg shadow-primary/20 cursor-pointer">
+              Claim Offer
+            </button>
+          </div>
+
+          <!-- Wanderer Plan Card -->
+          <div class="bg-white p-8 rounded-2xl border border-gray-100 flex flex-col justify-between">
+            <div class="space-y-6">
+              <div>
+                <h3 class="text-lg font-bold font-poppins text-gray-500 uppercase tracking-wider">Wanderer</h3>
+                <div class="mt-4 flex items-baseline">
+                  <span class="text-4xl font-extrabold font-poppins">$19.99</span>
+                  <span class="ml-1 text-sm text-gray-400">/ month</span>
+                </div>
+              </div>
+              <p class="text-gray-500 text-xs">Heavy-duty global navigation and continuous offline backups.</p>
+              <ul class="space-y-3.5 text-sm text-gray-600">
+                <li class="flex items-center"><i data-lucide="check" class="w-4.5 h-4.5 text-primary mr-2"></i> Everything in Explorer</li>
+                <li class="flex items-center"><i data-lucide="check" class="w-4.5 h-4.5 text-primary mr-2"></i> Unlimited premium Globi requests</li>
+                <li class="flex items-center"><i data-lucide="check" class="w-4.5 h-4.5 text-primary mr-2"></i> Real-time airline track backup</li>
+                <li class="flex items-center"><i data-lucide="check" class="w-4.5 h-4.5 text-primary mr-2"></i> Offline location maps storage</li>
+              </ul>
+            </div>
+            <button onclick="enterApp()" class="w-full mt-8 py-3 bg-gray-100 hover:bg-gray-200 text-navy-900 font-semibold rounded-xl text-center block transition cursor-pointer">
+              Get Started
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-24 bg-white border-t border-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-20 space-y-3">
+          <h2 class="text-xs font-bold text-primary tracking-widest uppercase font-poppins">Traveller Diaries</h2>
+          <p class="text-3xl sm:text-4xl font-extrabold font-poppins text-navy-900 tracking-tight">Praised Globally</p>
+          <p class="text-gray-500 font-light">Loved and utilized daily by cross-country packers, nomads, and family planners.</p>
+        </div>
+        
+        <!-- Grid -->
+        <div class="grid md:grid-cols-3 gap-8">
+          
+          <!-- Testimonial 1 -->
+          <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 space-y-6">
+            <div class="flex items-center space-x-1.5 text-coral-500">
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+            </div>
+            <p class="text-gray-600 font-light text-sm italic leading-relaxed">
+              "WanderWise planned our Amalfi Coast wedding-anniversary trip flawlessly from dawn till dusk. The custom budget snapshots saved us over $400 in hidden taxi fees."
+            </p>
+            <div class="flex items-center space-x-3.5">
+              <div class="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold font-poppins text-sm uppercase">
+                SJ
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-navy-900">Sarah Jennings</h4>
+                <p class="text-xs text-gray-400">California, US</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 space-y-6">
+            <div class="flex items-center space-x-1.5 text-coral-500">
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+            </div>
+            <p class="text-gray-600 font-light text-sm italic leading-relaxed">
+              "Globi guide is an absolute beast! I clicked suggestion queries in Tokyo and it mapped a safe local back-alley noodle shop that sat only 6 guests. Unforgettable meal."
+            </p>
+            <div class="flex items-center space-x-3.5">
+              <div class="w-10 h-10 rounded-full bg-[#FF8E72]/20 text-[#FF8E72] flex items-center justify-center font-bold font-poppins text-sm uppercase">
+                MR
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-navy-900">Marco Rossi</h4>
+                <p class="text-xs text-gray-400">Rome, Italy</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 space-y-6">
+            <div class="flex items-center space-x-1.5 text-coral-500">
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-coral-500"></i>
+            </div>
+            <p class="text-gray-600 font-light text-sm italic leading-relaxed">
+              "The custom travel persona tag labelled me as a 'Culture-Quest Buff'. The corresponding museum checklists integrated instantly with Rome local maps. Superb UX."
+            </p>
+            <div class="flex items-center space-x-3.5">
+              <div class="w-10 h-10 rounded-full bg-navy-900/10 text-navy-900 flex items-center justify-center font-bold font-poppins text-sm uppercase">
+                EW
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-navy-900">Emily Watson</h4>
+                <p class="text-xs text-gray-400">London, UK</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="py-20 bg-gradient-to-tr from-navy-900 to-navy-950 text-white relative overflow-hidden">
+      <!-- Glow effect -->
+      <div class="absolute w-96 h-96 rounded-full bg-primary/10 blur-3xl -top-12 -right-12"></div>
+      
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-8">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-poppins tracking-tight">
+          Ready to Travel Smarter?
+        </h2>
+        <p class="text-gray-300 max-w-xl mx-auto font-light leading-relaxed">
+          Plan, track, explore, and access Globi premium alerts offline. Take stress and sheets out of your next wander.
+        </p>
+        <div>
+          <button onclick="enterApp()" class="px-8 py-4 bg-primary hover:bg-primary/95 text-white font-semibold rounded-xl text-lg shadow-xl shadow-primary/25 transition transform hover:-translate-y-0.5 inline-flex items-center justify-center space-x-2 cursor-pointer">
+            <span>Try WanderWise for Free</span>
+            <i data-lucide="plane" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy-950 text-gray-400 py-16 border-t border-white/5">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-12 text-sm">
+        
+        <!-- Col 1 -->
+        <div class="col-span-2 md:col-span-1 space-y-4">
+          <a href="#" class="flex items-center space-x-2 text-xl font-bold font-poppins text-white tracking-tight">
+            <span class="p-1.5 bg-primary/20 rounded-md text-primary border border-primary/20">
+              <i data-lucide="compass" class="w-5 h-5"></i>
+            </span>
+            <span>WanderWise</span>
+          </a>
+          <p class="text-xs text-gray-500 font-light leading-relaxed">
+            Revolutionizing the global wanderlust experience. Engineered with modern travel mechanics and responsive state mapping.
+          </p>
+          <p class="text-xs text-gray-600 font-mono">&copy; 2026 WanderWise Inc.</p>
+        </div>
+
+        <!-- Col 2 -->
+        <div class="space-y-4">
+          <h4 class="text-white font-semibold font-poppins uppercase tracking-wider text-xs">Features</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#features" class="hover:text-primary transition">AI Planner</a></li>
+            <li><a href="#features" class="hover:text-primary transition">City Explorer</a></li>
+            <li><a href="#features" class="hover:text-primary transition">Smart Budget Ring</a></li>
+            <li><a href="#features" class="hover:text-primary transition">AI Globi Chat</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 -->
+        <div class="space-y-4">
+          <h4 class="text-white font-semibold font-poppins uppercase tracking-wider text-xs">Company</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="hover:text-primary transition">About Us</a></li>
+            <li><a href="#" class="hover:text-primary transition">Press Room</a></li>
+            <li><a href="#" class="hover:text-primary transition">Travel Blog</a></li>
+            <li><a href="#" class="hover:text-primary transition">Careers</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4 -->
+        <div class="space-y-4">
+          <h4 class="text-white font-semibold font-poppins uppercase tracking-wider text-xs">Legal</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="hover:text-primary transition">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-primary transition">Terms of Service</a></li>
+            <li><a href="#" class="hover:text-primary transition">Cookie Control</a></li>
+            <li><a href="#" class="hover:text-primary transition">API Access</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ============================================== -->
+  <!-- VIEW 1.5: LOGIN & SIGN-UP VIEW                -->
+  <!-- ============================================== -->
+  <div id="auth-view" class="view-transition hidden min-h-screen css-landscape flex items-center justify-center p-4">
+    <!-- Glowing background accents -->
+    <div class="glow w-[350px] h-[350px] -top-10 -left-10 opacity-40"></div>
+    <div class="glow w-[350px] h-[350px] -bottom-10 -right-10 opacity-40"></div>
+    
+    <div class="bg-navy-900/90 backdrop-blur-xl border border-white/10 rounded-3xl p-8 max-w-md w-full text-white shadow-2xl relative z-10 space-y-6">
+      <!-- Header Module -->
+      <div class="text-center space-y-2">
+        <div class="inline-flex items-center space-x-2 text-2xl font-bold font-poppins text-white tracking-tight">
+          <span class="p-2 bg-primary/20 rounded-lg text-primary border border-primary/20">
+            <i data-lucide="compass" class="w-6 h-6 animate-spin-slow"></i>
+          </span>
+          <span>Wander<span class="text-primary">Wise</span></span>
+        </div>
+        <p id="auth-tagline" class="text-xs text-slate-400">Your AI Travel Companion</p>
+      </div>
+
+      <!-- Authentication Switch Tabs -->
+      <div class="flex border-b border-white/10 text-sm font-semibold select-none">
+        <button id="tab-signin-btn" onclick="toggleAuthTab('signin')" class="flex-1 pb-3 text-center border-b-2 border-primary text-white focus:outline-none transition-all cursor-pointer">Sign In</button>
+        <button id="tab-signup-btn" onclick="toggleAuthTab('signup')" class="flex-1 pb-3 text-center border-b-2 border-transparent text-slate-400 hover:text-white focus:outline-none transition-all cursor-pointer">Sign Up</button>
+      </div>
+
+      <!-- Sign In Form Core -->
+      <form id="signin-form" onsubmit="handleSignInSubmit(event)" class="space-y-4">
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-slate-300">Email Address</label>
+          <input type="email" id="signin-email" required placeholder="name@domain.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary text-white transition-all">
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-slate-300">Password</label>
+          <input type="password" id="signin-password" required placeholder="••••••••" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary text-white transition-all">
+        </div>
+        <button type="submit" class="w-full py-3 bg-primary hover:bg-primary/95 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-primary/20 cursor-pointer">
+          Sign In
+        </button>
+      </form>
+
+      <!-- Sign Up Form Core (hidden initially) -->
+      <form id="signup-form" onsubmit="handleSignUpSubmit(event)" class="space-y-4 hidden">
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-slate-300">Full Name</label>
+          <input type="text" id="signup-fullname" required placeholder="Alex Mercer" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary text-white transition-all">
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-slate-300">Email Address</label>
+          <input type="email" id="signup-email" required placeholder="alex@domain.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary text-white transition-all">
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-slate-300">Password</label>
+          <input type="password" id="signup-password" required placeholder="Minimum 6 characters" minlength="6" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary text-white transition-all">
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-slate-300">Confirm Password</label>
+          <input type="password" id="signup-confirm" required placeholder="••••••••" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary text-white transition-all">
+        </div>
+        <button type="submit" class="w-full py-3 bg-primary hover:bg-primary/95 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-primary/20 cursor-pointer">
+          Create Account
+        </button>
+      </form>
+
+      <!-- Horizontal Divider -->
+      <div class="flex items-center space-x-3 text-xs text-slate-500 my-4 select-none">
+        <div class="h-[1px] bg-white/10 flex-grow"></div>
+        <span>or</span>
+        <div class="h-[1px] bg-white/10 flex-grow"></div>
+      </div>
+
+      <!-- Continue as Guest Action -->
+      <button type="button" onclick="continueAsGuest()" class="w-full py-3 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-xl text-sm border border-white/10 transition cursor-pointer flex items-center justify-center space-x-2">
+        <i data-lucide="user" class="w-4 h-4"></i>
+        <span>Continue as Guest</span>
+      </button>
+      
+      <!-- Back navigation to landing -->
+      <div class="text-center pt-2 select-none">
+        <button onclick="goToLanding()" class="text-xs text-slate-400 hover:text-white transition flex items-center justify-center mx-auto space-x-1 cursor-pointer">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Back to Landing</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- VIEW 1.6: ONBOARDING WIZARD VIEW              -->
+  <!-- ============================================== -->
+  <div id="onboarding-view" class="view-transition hidden min-h-screen bg-lightgrey py-12 px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
+    <div class="max-w-xl mx-auto w-full bg-white rounded-3xl border border-gray-100 p-8 shadow-xl space-y-8 relative overflow-hidden">
+      
+      <!-- Progressive Progress Indicator -->
+      <div class="space-y-2 select-none">
+        <div class="flex justify-between items-center text-xs font-medium text-slate-400">
+          <span>Step <span id="onboarding-step-indicator" class="font-bold text-navy-900">1</span> of 4</span>
+          <span id="onboarding-step-title" class="font-semibold text-primary">Basics Information</span>
+        </div>
+        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+          <div id="onboarding-progress-bar" class="bg-primary h-full transition-all duration-300" style="width: 25%"></div>
+        </div>
+      </div>
+
+      <!-- Step-by-Step Forms Container -->
+      <div class="space-y-6">
+        
+        <!-- STEP 1: JOURNEY BASICS -->
+        <div id="ob-step-1" class="ob-step space-y-5">
+          <div class="space-y-1">
+            <h3 class="text-xl font-bold font-poppins text-navy-900 flex items-center gap-2">
+              <span>Tell us about yourself</span>
+              <span>✈️</span>
+            </h3>
+            <p class="text-xs text-slate-400 font-light">Let's configure your basics so we can compute your travel persona and allocation matrices.</p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="space-y-1">
+              <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Full Name</label>
+              <input type="text" id="ob-fullname" required placeholder="Alex Mercer" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary text-black transition-all">
+            </div>
+            
+            <div class="space-y-1">
+              <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Date of Birth</label>
+              <input type="date" id="ob-dob" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary text-black transition-all">
+            </div>
+            
+            <div class="space-y-1">
+              <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Home City</label>
+              <input type="text" id="ob-homecity" required placeholder="Enter home city e.g. Mumbai" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary text-black transition-all">
+              
+              <!-- Quick city choices -->
+              <div class="pt-2 select-none">
+                <span class="text-[10px] text-slate-400 font-semibold block mb-1">Click a popular city suggestion:</span>
+                <div class="flex flex-wrap gap-1.5">
+                  <button type="button" onclick="selectObHomeCity('Mumbai')" class="px-2.5 py-1 bg-slate-100 hover:bg-primary/10 hover:text-primary rounded-md text-xs transition cursor-pointer font-medium text-slate-600">Mumbai</button>
+                  <button type="button" onclick="selectObHomeCity('Delhi')" class="px-2.5 py-1 bg-slate-100 hover:bg-primary/10 hover:text-primary rounded-md text-xs transition cursor-pointer font-medium text-slate-600">Delhi</button>
+                  <button type="button" onclick="selectObHomeCity('Bengaluru')" class="px-2.5 py-1 bg-slate-100 hover:bg-primary/10 hover:text-primary rounded-md text-xs transition cursor-pointer font-medium text-slate-600">Bengaluru</button>
+                  <button type="button" onclick="selectObHomeCity('New York')" class="px-2.5 py-1 bg-slate-100 hover:bg-primary/10 hover:text-primary rounded-md text-xs transition cursor-pointer font-medium text-slate-600">New York</button>
+                  <button type="button" onclick="selectObHomeCity('London')" class="px-2.5 py-1 bg-slate-100 hover:bg-primary/10 hover:text-primary rounded-md text-xs transition cursor-pointer font-medium text-slate-600">London</button>
+                  <button type="button" onclick="selectObHomeCity('Paris')" class="px-2.5 py-1 bg-slate-100 hover:bg-primary/10 hover:text-primary rounded-md text-xs transition cursor-pointer font-medium text-slate-600">Paris</button>
+                  <button type="button" onclick="selectObHomeCity('Tokyo')" class="px-2.5 py-1 bg-slate-100 hover:bg-primary/10 hover:text-primary rounded-md text-xs transition cursor-pointer font-medium text-slate-600">Tokyo</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="space-y-2 select-none">
+              <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Preferred Currency</label>
+              <div class="grid grid-cols-4 gap-2 text-center text-xs font-semibold">
+                <button type="button" id="curr-inr" onclick="setObCurrency('INR')" class="py-3 px-2 border-2 border-primary bg-primary/5 text-primary rounded-xl transition cursor-pointer">₹ INR</button>
+                <button type="button" id="curr-usd" onclick="setObCurrency('USD')" class="py-3 px-2 border-2 border-slate-200 hover:border-slate-300 text-slate-600 rounded-xl transition cursor-pointer">USD ($)</button>
+                <button type="button" id="curr-eur" onclick="setObCurrency('EUR')" class="py-3 px-2 border-2 border-slate-200 hover:border-slate-300 text-slate-600 rounded-xl transition cursor-pointer">EUR (€)</button>
+                <button type="button" id="curr-gbp" onclick="setObCurrency('GBP')" class="py-3 px-2 border-2 border-slate-200 hover:border-slate-300 text-slate-600 rounded-xl transition cursor-pointer">GBP (£)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: SIGNATURE TRAVEL STYLE -->
+        <div id="ob-step-2" class="ob-step space-y-5 hidden">
+          <div class="space-y-1">
+            <h3 class="text-xl font-bold font-poppins text-navy-900 flex items-center gap-2">
+              <span>Your Signature Travel Style</span>
+              <span>🌊</span>
+            </h3>
+            <p class="text-xs text-slate-400 font-light">Select the card that best captures your vacation aesthetic and travel pacing.</p>
+          </div>
+          
+          <div class="space-y-4">
+            <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Select One Experience Vibe</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 select-none text-left">
+              
+              <!-- Style 1 -->
+              <div onclick="selectObStyle('Adventure')" id="style-Adventure" class="ob-style-card border-2 border-primary bg-primary/5 ring-2 ring-primary/20 rounded-2xl p-4 flex items-start space-x-3.5 cursor-pointer transition-all duration-200">
+                <span class="text-2xl mt-0.5">🧗</span>
+                <div class="space-y-1">
+                  <h4 class="text-sm font-bold text-navy-900">Adventure</h4>
+                  <p class="text-[11px] text-slate-400 font-light leading-snug">Active exploration, hiking trails, high adrenaline</p>
+                </div>
+              </div>
+
+              <!-- Style 2 -->
+              <div onclick="selectObStyle('Relaxation')" id="style-Relaxation" class="ob-style-card border-2 border-slate-200 bg-white rounded-2xl p-4 flex items-start space-x-3.5 cursor-pointer transition-all duration-200">
+                <span class="text-2xl mt-0.5">🌴</span>
+                <div class="space-y-1">
+                  <h4 class="text-sm font-bold text-navy-900">Relaxation</h4>
+                  <p class="text-[11px] text-slate-400 font-light leading-snug">Beaches, health spas, slow-paced unwinding</p>
+                </div>
+              </div>
+
+              <!-- Style 3 -->
+              <div onclick="selectObStyle('Cultural')" id="style-Cultural" class="ob-style-card border-2 border-slate-200 bg-white rounded-2xl p-4 flex items-start space-x-3.5 cursor-pointer transition-all duration-200">
+                <span class="text-2xl mt-0.5">🏛️</span>
+                <div class="space-y-1">
+                  <h4 class="text-sm font-bold text-navy-900">Cultural</h4>
+                  <p class="text-[11px] text-slate-400 font-light leading-snug">Historic sidetracks, local museums, architecture</p>
+                </div>
+              </div>
+
+              <!-- Style 4 -->
+              <div onclick="selectObStyle('Foodie')" id="style-Foodie" class="ob-style-card border-2 border-slate-200 bg-white rounded-2xl p-4 flex items-start space-x-3.5 cursor-pointer transition-all duration-200">
+                <span class="text-2xl mt-0.5">🌮</span>
+                <div class="space-y-1">
+                  <h4 class="text-sm font-bold text-navy-900">Foodie</h4>
+                  <p class="text-[11px] text-slate-400 font-light leading-snug">Specialized street-food tours, cafes, local markets</p>
+                </div>
+              </div>
+
+              <!-- Style 5 -->
+              <div onclick="selectObStyle('Backpacker')" id="style-Backpacker" class="ob-style-card border-2 border-slate-200 bg-white rounded-2xl p-4 flex items-start space-x-3.5 cursor-pointer transition-all duration-200">
+                <span class="text-2xl mt-0.5">🎒</span>
+                <div class="space-y-1">
+                  <h4 class="text-sm font-bold text-navy-900">Backpacker</h4>
+                  <p class="text-[11px] text-slate-400 font-light leading-snug">Budget-conscious hostel living, local transports</p>
+                </div>
+              </div>
+
+              <!-- Style 6 -->
+              <div onclick="selectObStyle('Luxury')" id="style-Luxury" class="ob-style-card border-2 border-slate-200 bg-white rounded-2xl p-4 flex items-start space-x-3.5 cursor-pointer transition-all duration-200">
+                <span class="text-2xl mt-0.5">✨</span>
+                <div class="space-y-1">
+                  <h4 class="text-sm font-bold text-navy-900">Luxury</h4>
+                  <p class="text-[11px] text-slate-400 font-light leading-snug">Premium lounges, fine dining, tailored VIP passes</p>
+                </div>
+              </div>
+
+            </div>
+            
+            <div class="space-y-2 select-none">
+              <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Preferred Trip Duration</label>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <button type="button" id="dur-Weekend" onclick="setObDuration('Weekend')" class="py-2.5 px-3 border border-primary bg-primary text-white rounded-xl transition text-xs font-semibold cursor-pointer">Weekend</button>
+                <button type="button" id="dur-1week" onclick="setObDuration('1 week')" class="py-2.5 px-3 border border-slate-200 hover:border-slate-300 rounded-xl transition text-xs font-semibold text-slate-600 cursor-pointer">1 week</button>
+                <button type="button" id="dur-2weeks" onclick="setObDuration('2 weeks')" class="py-2.5 px-3 border border-slate-200 hover:border-slate-300 rounded-xl transition text-xs font-semibold text-slate-600 cursor-pointer">2 weeks</button>
+                <button type="button" id="dur-1month" onclick="setObDuration('1 month+')" class="py-2.5 px-3 border border-slate-200 hover:border-slate-300 rounded-xl transition text-xs font-semibold text-slate-600 cursor-pointer">1 month+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: BUDGET & STAY CHOICES -->
+        <div id="ob-step-3" class="ob-step space-y-5 hidden">
+          <div class="space-y-1">
+            <h3 class="text-xl font-bold font-poppins text-navy-900 flex items-center gap-2">
+              <span>Budget & Stay Preferences</span>
+              <span>💳</span>
+            </h3>
+            <p class="text-xs text-slate-400 font-light">Set your typical expenditure limits and select comfortable lodging preferences.</p>
+          </div>
+          
+          <div class="space-y-4">
+            <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Choose Budget Tier</label>
+            <div class="grid grid-cols-3 gap-3.5 select-none text-center">
+              
+              <!-- Tier 1 -->
+              <div onclick="selectObBudget('Budget')" id="budget-Budget" class="ob-budget-card border-2 border-primary bg-primary/5 ring-2 ring-primary/20 rounded-2xl p-4 cursor-pointer transition-all duration-200 flex flex-col items-center justify-between">
+                <span class="text-2xl">💵</span>
+                <h4 class="text-xs font-bold text-navy-900 uppercase mt-2">Budget</h4>
+                <p class="text-[10px] text-slate-400 mt-1 leading-snug font-medium" id="hint-budget-text">₹2,000 / day</p>
+              </div>
+
+              <!-- Tier 2 -->
+              <div onclick="selectObBudget('Mid-range')" id="budget-Midrange" class="ob-budget-card border-2 border-slate-200 bg-white rounded-2xl p-4 cursor-pointer transition-all duration-200 flex flex-col items-center justify-between">
+                <span class="text-2xl">💳</span>
+                <h4 class="text-xs font-bold text-navy-900 uppercase mt-2">Mid-range</h4>
+                <p class="text-[10px] text-slate-400 mt-1 leading-snug font-medium" id="hint-midrange-text">₹6,000 / day</p>
+              </div>
+
+              <!-- Tier 3 -->
+              <div onclick="selectObBudget('Luxury')" id="budget-Luxury" class="ob-budget-card border-2 border-slate-200 bg-white rounded-2xl p-4 cursor-pointer transition-all duration-200 flex flex-col items-center justify-between">
+                <span class="text-2xl">💎</span>
+                <h4 class="text-xs font-bold text-navy-900 uppercase mt-2">Luxury</h4>
+                <p class="text-[10px] text-slate-400 mt-1 leading-snug font-medium" id="hint-luxury-text">₹15,000 / day</p>
+              </div>
+
+            </div>
+
+            <div class="space-y-2 select-none">
+              <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Accommodation Preference (Multi-select)</label>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" id="accom-Hostel" onclick="toggleObAccommodation('Hostel')" class="py-2 px-4 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Hostel</button>
+                <button type="button" id="accom-Hotel" onclick="toggleObAccommodation('Hotel')" class="py-2 px-4 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Hotel</button>
+                <button type="button" id="accom-Airbnb" onclick="toggleObAccommodation('Airbnb')" class="py-2 px-4 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Airbnb</button>
+                <button type="button" id="accom-Resort" onclick="toggleObAccommodation('Resort')" class="py-2 px-4 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Resort</button>
+                <button type="button" id="accom-Homestay" onclick="toggleObAccommodation('Homestay')" class="py-2 px-4 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Homestay</button>
+              </div>
+            </div>
+
+            <div class="space-y-2 select-none">
+              <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Who are you travelling with?</label>
+              <div class="grid grid-cols-4 gap-2 text-center text-xs font-semibold">
+                <button type="button" id="comp-Solo" onclick="setObCompanions('Solo')" class="py-2.5 border border-primary bg-primary text-white rounded-xl transition cursor-pointer">Solo</button>
+                <button type="button" id="comp-Couple" onclick="setObCompanions('Couple')" class="py-2.5 border border-slate-200 hover:border-slate-300 text-slate-600 rounded-xl transition cursor-pointer">Couple</button>
+                <button type="button" id="comp-Family" onclick="setObCompanions('Family')" class="py-2.5 border border-slate-200 hover:border-slate-300 text-slate-600 rounded-xl transition cursor-pointer">Family</button>
+                <button type="button" id="comp-Friends" onclick="setObCompanions('Friends')" class="py-2.5 border border-slate-200 hover:border-slate-300 text-slate-600 rounded-xl transition cursor-pointer">Friends</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: PREFERENCES & COGNITIVE CONTROLS -->
+        <div id="ob-step-4" class="ob-step space-y-5 hidden">
+          <div class="space-y-1">
+            <h3 class="text-xl font-bold font-poppins text-navy-900 flex items-center gap-2">
+              <span>Preferences & Restrictions</span>
+              <span>🍲</span>
+            </h3>
+            <p class="text-xs text-slate-400 font-light">Custom tune allergens, languages, core interests, and physical mobility pacing.</p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="space-y-2 select-none">
+              <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Food Preference (Multi-select)</label>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" id="food-NoPreference" onclick="toggleObFoodPref('No Preference')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">No Preference</button>
+                <button type="button" id="food-Vegetarian" onclick="toggleObFoodPref('Vegetarian')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Vegetarian</button>
+                <button type="button" id="food-Vegan" onclick="toggleObFoodPref('Vegan')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Vegan</button>
+                <button type="button" id="food-Halal" onclick="toggleObFoodPref('Halal')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Halal</button>
+                <button type="button" id="food-Kosher" onclick="toggleObFoodPref('Kosher')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Kosher</button>
+                <button type="button" id="food-GlutenFree" onclick="toggleObFoodPref('Gluten-Free')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Gluten-Free</button>
+              </div>
+            </div>
+
+            <div class="space-y-2 select-none">
+              <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Primary Interests (Multi-select)</label>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" id="int-Beaches" onclick="toggleObInterest('Beaches')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Beaches</button>
+                <button type="button" id="int-Mountains" onclick="toggleObInterest('Mountains')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Mountains</button>
+                <button type="button" id="int-History" onclick="toggleObInterest('History')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">History</button>
+                <button type="button" id="int-Nightlife" onclick="toggleObInterest('Nightlife')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Nightlife</button>
+                <button type="button" id="int-Food" onclick="toggleObInterest('Food')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Food</button>
+                <button type="button" id="int-Shopping" onclick="toggleObInterest('Shopping')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Shopping</button>
+                <button type="button" id="int-Wildlife" onclick="toggleObInterest('Wildlife')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Wildlife</button>
+                <button type="button" id="int-AdventureSports" onclick="toggleObInterest('Adventure Sports')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Adventure Sports</button>
+              </div>
+            </div>
+
+            <div class="space-y-2 select-none">
+              <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Languages Spoken (Multi-select)</label>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" id="lang-English" onclick="toggleObLanguage('English')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">English</button>
+                <button type="button" id="lang-Hindi" onclick="toggleObLanguage('Hindi')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Hindi</button>
+                <button type="button" id="lang-Spanish" onclick="toggleObLanguage('Spanish')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Spanish</button>
+                <button type="button" id="lang-French" onclick="toggleObLanguage('French')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">French</button>
+                <button type="button" id="lang-Italian" onclick="toggleObLanguage('Italian')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Italian</button>
+                <button type="button" id="lang-German" onclick="toggleObLanguage('German')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">German</button>
+                <button type="button" id="lang-Japanese" onclick="toggleObLanguage('Japanese')" class="py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer">Japanese</button>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="text-xs font-bold text-navy-900 uppercase tracking-wider block">Physical Mobility Level</label>
+                <span id="mobility-label-val" class="text-xs font-bold text-primary font-mono bg-primary/10 px-2 py-0.5 rounded">Moderate</span>
+              </div>
+              <input type="range" id="ob-mobility" min="1" max="3" value="2" oninput="updateObMobilityLabel(this.value)" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-primary">
+              <div class="flex justify-between text-[10px] text-slate-400 font-medium select-none">
+                <span>Low (Slower pace)</span>
+                <span>Moderate (Active walks)</span>
+                <span>High (Challenging hikes)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- ONBOARDING SUMMARY CARD (STEP 5) -->
+        <div id="ob-summary" class="ob-step space-y-5 hidden">
+          <div class="text-center space-y-2 select-none">
+            <span class="text-4xl animate-bounce inline-block">🎉</span>
+            <h3 class="text-xl font-bold font-poppins text-navy-900">Your Travel Profile is Ready!</h3>
+            <p class="text-xs text-gray-400 font-light leading-relaxed font-poppins">We calculated your customized budget metrics and travel persona badge.</p>
+          </div>
+          
+          <!-- Persona Reveal badge -->
+          <div class="p-5 hero-gradient rounded-2xl text-white text-center space-y-1.5 shadow-lg border border-white/5 relative overflow-hidden">
+            <div class="absolute inset-0 bg-radial-gradient from-white/10 to-transparent -left-10 pointer-events-none"></div>
+            <p class="text-[10px] uppercase font-bold tracking-widest text-coral-400 select-none">WanderWise Assigned Persona</p>
+            <h4 id="summary-persona" class="text-2xl font-extrabold font-poppins tracking-tight">Cultural Mid-range Explorer</h4>
+            <p class="text-[11px] text-slate-200 font-light" id="summary-budget-calc">Daily Budget: ₹6,000 / day</p>
+          </div>
+
+          <!-- Summary parameters block -->
+          <div class="grid grid-cols-2 gap-3.5 text-xs text-slate-600 bg-slate-50/70 p-4 border border-slate-100 rounded-xl">
+            <div>
+              <span class="text-[10px] uppercase text-slate-400 font-bold block select-none">Full Name</span>
+              <span id="td-fullname" class="font-bold text-navy-900">Alex Mercer</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase text-slate-400 font-bold block select-none">Home City</span>
+              <span id="td-homecity" class="font-bold text-navy-900">Mumbai</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase text-slate-400 font-bold block select-none">Date of Birth</span>
+              <span id="td-dob" class="font-bold text-navy-900">12/05/1998</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase text-slate-400 font-bold block select-none">Currency & Duration</span>
+              <span id="td-currency" class="font-bold text-navy-900">INR (Weekend)</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase text-slate-400 font-bold block select-none">Accommodations</span>
+              <span id="td-stays" class="font-bold text-navy-900 truncate block">Hotel, Airbnb</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase text-slate-400 font-bold block select-none">Companions</span>
+              <span id="td-companions" class="font-bold text-navy-900">Solo</span>
+            </div>
+            <div class="col-span-2 border-t border-slate-100 pt-2.5 mt-1">
+              <span class="text-[10px] uppercase text-slate-400 font-bold block select-none">Interests & Diet</span>
+              <span id="td-interests" class="font-bold text-navy-900 block leading-relaxed">Interests: Beaches, History | Diet: Vegetarian</span>
+            </div>
+          </div>
+          
+          <!-- Budget Breakdown Percentages Split -->
+          <div class="space-y-2">
+            <span class="text-[10px] uppercase text-slate-400 font-bold block select-none">Your Calculated Percentage Split</span>
+            <div class="w-full bg-slate-100 h-6.5 rounded-lg flex overflow-hidden text-[9px] font-bold text-white shadow-sm select-none">
+              <div class="bg-teal-500 h-full flex items-center justify-center transition-all" style="width: 40%" title="Stay: 40%">Stay 40%</div>
+              <div class="bg-coral-500 h-full flex items-center justify-center border-l border-white/10 transition-all" style="width: 25%" title="Food: 25%">Food 25%</div>
+              <div class="bg-indigo-500 h-full flex items-center justify-center border-l border-white/10 transition-all" style="width: 15%" title="Transport: 15%">Tran 15%</div>
+              <div class="bg-amber-500 h-full flex items-center justify-center border-l border-white/10 transition-all" style="width: 15%" title="Activities: 15%">Act 15%</div>
+              <div class="bg-emerald-500 h-full flex items-center justify-center border-l border-white/10 transition-all" style="width: 5%" title="Shopping: 5%">5%</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Progressive Navigation Footer Controls -->
+      <div class="flex justify-between items-center border-t border-slate-100 pt-5 select-none" id="ob-controls">
+        <button type="button" id="ob-back-btn" onclick="obBack()" class="px-5 py-3 border border-slate-200 rounded-xl hover:bg-slate-50 transition text-sm font-semibold text-slate-600 flex items-center space-x-1.5 cursor-pointer">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>Back</span>
+        </button>
+        
+        <button type="button" id="ob-next-btn" onclick="obNext()" class="px-6 py-3 bg-primary hover:bg-primary/95 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-primary/20 flex items-center space-x-1.5 cursor-pointer">
+          <span>Continue</span>
+          <i data-lucide="arrow-right" class="w-4 h-4" id="ob-next-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- VIEW 2: APP SHELL                              -->
+  <!-- ============================================== -->
+  <div id="app-view" class="view-transition hidden min-h-screen bg-lightgrey grid md:grid-cols-12 relative overflow-hidden">
+    
+    <!-- Left Sidebar Nav (Visible on MD screens and above) -->
+    <aside class="hidden md:flex md:col-span-3 lg:col-span-2.5 bg-navy-900 text-white flex-col justify-between p-6 border-r border-white/5 z-30">
+      <div class="space-y-8">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2 text-xl font-bold font-poppins">
+          <span class="p-1.5 bg-primary/20 rounded-md text-primary">
+            <i data-lucide="compass" class="w-5 h-5"></i>
+          </span>
+          <span>Wander<span class="text-primary">Wise</span></span>
+        </div>
+        
+        <!-- Navigation Menu items -->
+        <nav class="space-y-2" id="desktop-sidebar-nav">
+          <button onclick="switchTab('dashboard')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white" data-tab="dashboard">
+            <i data-lucide="layout-dashboard" class="w-4.5 h-4.5"></i>
+            <span>Dashboard</span>
+          </button>
+          <button onclick="switchTab('trips')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white" data-tab="trips">
+            <i data-lucide="navigation" class="w-4.5 h-4.5"></i>
+            <span>Trips</span>
+          </button>
+          <button onclick="switchTab('explore')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white" data-tab="explore">
+            <i data-lucide="search" class="w-4.5 h-4.5"></i>
+            <span>Explore</span>
+          </button>
+          <button onclick="switchTab('concierge')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white" data-tab="concierge">
+            <i data-lucide="sparkles" class="w-4.5 h-4.5"></i>
+            <span>AI Concierge</span>
+          </button>
+          <button onclick="switchTab('profile')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white" data-tab="profile">
+            <i data-lucide="user" class="w-4.5 h-4.5"></i>
+            <span>Profile</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Quick Stats Card in Sidebar -->
+      <div class="p-4 bg-white/5 border border-white/5 rounded-2xl space-y-3 shrink-0">
+        <div class="flex items-center justify-between text-xs text-gray-400">
+          <span>Active Streak</span>
+          <span class="text-coral-500 font-bold flex items-center"><i data-lucide="flame" class="w-3.5 h-3.5 mr-0.5"></i> 12 Days</span>
+        </div>
+        <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+          <div class="bg-primary h-full rounded-full" style="width: 75%"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- App Content Wrapper -->
+    <main class="md:col-span-9 lg:col-span-9.5 min-h-screen flex flex-col justify-between pb-20 md:pb-6 overflow-y-auto">
+      
+      <!-- Top Bar of Platform -->
+      <header class="bg-white border-b border-gray-100 py-4 px-6 sm:px-8 flex justify-between items-center shrink-0">
+        <div>
+          <h2 id="app-view-title" class="text-xl font-bold font-poppins text-navy-900">Dashboard Overview</h2>
+          <p id="app-view-subtitle" class="text-gray-400 text-xs font-light">Welcome back, Alex Mercer 🌲</p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <!-- Quick Status indicator -->
+          <div class="hidden sm:inline-flex items-center space-x-1 px-3 py-1 bg-green-50 text-green-700 text-xs font-semibold rounded-full border border-green-100">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+            <span>Cloud Sync Active</span>
+          </div>
+          <!-- Avatar Toggle -->
+          <button onclick="switchTab('profile')" class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-[#4FD1C5] text-white flex items-center justify-center font-bold text-sm tracking-wide cursor-pointer ring-2 ring-primary/20">
+            AM
+          </button>
+        </div>
+      </header>
+      
+      <!-- TAB CONTENTS -->
+      <div class="p-6 sm:p-8 flex-grow">
+        
+        <!-- DASHBOARD TAB CONTENT -->
+        <div id="tab-content-dashboard" class="tab-panel space-y-8">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- Column left: Core Upcoming Trip & Map -->
+            <div class="lg:col-span-8 space-y-6">
+              
+              <!-- Upcoming Trip Card Placeholder -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                <div class="absolute right-0 top-0 w-36 h-36 bg-primary/5 rounded-full -mr-10 -mt-10 pointer-events-none transition duration-500 group-hover:scale-125"></div>
+                
+                <!-- Future Placeholder Banner Header -->
+                <div class="mb-4 flex flex-wrap justify-between items-center gap-2">
+                  <span class="text-xs font-bold text-primary uppercase tracking-wider px-2.5 py-1 bg-primary/10 rounded-full">
+                    Future Work: Live Destination API Placeholder
+                  </span>
+                  <div class="border-2 border-dashed border-gray-200 px-3 py-0.5 rounded-lg text-[11px] font-mono text-gray-400 font-medium">
+                    &lt;Upcoming Trip Card&gt;
+                  </div>
+                </div>
+
+                <div class="space-y-4">
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <h4 class="text-2xl font-bold text-navy-900 font-poppins">Paris Gastronomy & Arts Tour</h4>
+                      <p class="text-gray-400 text-sm flex items-center mt-1">
+                        <i data-lucide="calendar" class="w-4 h-4 mr-1 text-gray-400"></i> July 12 — July 18, 2026 (6 Days)
+                      </p>
+                    </div>
+                    <span class="px-3 py-1.5 bg-coral-500/10 text-coral-500 text-xs font-extrabold rounded-lg font-mono">
+                      5 DAYS LEFT
+                    </span>
+                  </div>
+                  
+                  <div class="grid sm:grid-cols-2 gap-4 pt-2">
+                    <div class="p-3 bg-gray-50 rounded-lg flex items-center space-x-3.5 border border-dashed border-gray-200">
+                      <div class="p-2 bg-primary/10 text-primary rounded-md shrink-0">
+                        <i data-lucide="cloud-rain" class="w-5 h-5"></i>
+                      </div>
+                      <div>
+                        <p class="text-xs text-gray-400">Weather Forecast</p>
+                        <p class="text-sm font-bold text-navy-900">22°C, Light drizzle</p>
+                      </div>
+                    </div>
+                    
+                    <div class="p-3 bg-gray-50 rounded-lg flex items-center space-x-3.5 border border-dashed border-gray-200">
+                      <div class="p-2 bg-[#FFEEEA] text-[#FF8E72] rounded-md shrink-0">
+                        <i data-lucide="check-square" class="w-5 h-5"></i>
+                      </div>
+                      <div>
+                        <p class="text-xs text-gray-400">Packing Checklist</p>
+                        <div class="w-32 bg-gray-200 h-2 rounded-full mt-1.5 overflow-hidden">
+                          <div class="bg-coral-500 h-full rounded-full" style="width: 66%"></div>
+                        </div>
+                        <p class="text-[10px] text-gray-400 mt-0.5">8 of 12 items secured</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Visited Places Map Placeholder -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                <div>
+                  <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-sm font-bold text-navy-900 font-poppins">My Global Footprints</h3>
+                    <div class="border-2 border-dashed border-gray-200 px-3 py-0.5 rounded-lg text-[11px] font-mono text-gray-400 font-medium">
+                      &lt;Visited Places Map&gt;
+                    </div>
+                  </div>
+                  <p class="text-xs text-gray-400 mb-6 font-light">Interactive tracking of cities logged during past exploration cycles.</p>
+                </div>
+                
+                <!-- Stylized CSS Abstract map dots -->
+                <div class="h-48 bg-gradient-to-tr from-navy-950 to-navy-900 rounded-xl relative overflow-hidden border border-white/5 p-4 flex flex-col justify-end">
+                  <div class="absolute w-2 h-2 rounded-full bg-primary animate-ping left-[15%] top-[30%]"></div>
+                  <div class="absolute w-1.5 h-1.5 rounded-full bg-primary left-[15%] top-[30%]"></div>
+                  
+                  <div class="absolute w-2 h-2 rounded-full bg-primary animate-ping left-[45%] top-[65%]"></div>
+                  <div class="absolute w-1.5 h-1.5 rounded-full bg-primary left-[45%] top-[65%]"></div>
+                  
+                  <div class="absolute w-2 h-2 rounded-full bg-coral-500 animate-ping left-[65%] top-[25%] pointer-events-none"></div>
+                  <div class="absolute w-1.5 h-1.5 rounded-full bg-coral-500 left-[65%] top-[25%]"></div>
+                  <span class="absolute text-[9px] text-coral-400 font-bold bg-navy-950/80 px-2 py-0.5 rounded border border-white/5 left-[69%] top-[22%]">Active Paris Goal</span>
+                  
+                  <div class="flex items-center justify-between text-[11px] bg-white/5 rounded-lg p-3 backdrop-blur-sm z-10 border border-white/5">
+                    <span class="text-gray-300">Total Cities Logged: <strong class="text-white">14 Destinations</strong></span>
+                    <span class="text-xs font-semibold px-2 py-0.5 bg-primary/20 text-primary rounded-full">Updated Live</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- My Onboarding & Travel Profile Snapshot -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
+                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                  <div class="flex items-center space-x-2.5">
+                    <span class="p-1.5 bg-primary/10 text-primary rounded-lg">
+                      <i data-lucide="user-check" class="w-5 h-5"></i>
+                    </span>
+                    <div>
+                      <h3 class="text-sm font-bold text-navy-900 font-poppins">My Travel Profile & Preferences</h3>
+                      <p class="text-[11px] text-gray-400 font-light">Custom parameters computed from your onboarding</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <span class="text-[10px] bg-teal-50 text-teal-600 px-2 py-0.5 rounded-full font-bold border border-teal-100/80 flex items-center gap-1 shrink-0">
+                      <span class="w-1.5 h-1.5 bg-teal-500 rounded-full animate-pulse"></span>
+                      Onboarded Active
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Bento-styled Attributes Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-poppins">
+                  <!-- Home City -->
+                  <div class="p-3 bg-gray-50/70 border border-gray-100 rounded-xl space-y-1">
+                    <span class="text-[9px] uppercase text-gray-400 font-bold block select-none flex items-center gap-1 font-sans">
+                      <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gray-400"></i> Home City
+                    </span>
+                    <span id="dash-homecity" class="font-bold text-navy-900 text-xs sm:text-sm">N/A</span>
+                  </div>
+
+                  <!-- Date of birth -->
+                  <div class="p-3 bg-gray-50/70 border border-gray-100 rounded-xl space-y-1">
+                    <span class="text-[9px] uppercase text-gray-400 font-bold block select-none flex items-center gap-1 font-sans">
+                      <i data-lucide="cake" class="w-3.5 h-3.5 text-gray-400"></i> Date of Birth
+                    </span>
+                    <span id="dash-dob" class="font-bold text-navy-900 text-xs sm:text-sm">N/A</span>
+                  </div>
+
+                  <!-- Budget & Currency -->
+                  <div class="p-3 bg-gray-50/70 border border-gray-100 rounded-xl space-y-1">
+                    <span class="text-[9px] uppercase text-gray-400 font-bold block select-none flex items-center gap-1 font-sans">
+                      <i data-lucide="wallet" class="w-3.5 h-3.5 text-gray-400"></i> Daily Budget
+                    </span>
+                    <span id="dash-budget" class="font-bold text-primary text-xs sm:text-sm">N/A</span>
+                  </div>
+
+                  <!-- Travel Style -->
+                  <div class="p-3 bg-gray-50/70 border border-gray-100 rounded-xl space-y-1">
+                    <span class="text-[9px] uppercase text-gray-400 font-bold block select-none flex items-center gap-1 font-sans">
+                      <i data-lucide="compass" class="w-3.5 h-3.5 text-gray-400"></i> Travel Style
+                    </span>
+                    <span id="dash-style" class="font-bold text-navy-900 text-xs sm:text-sm">N/A</span>
+                  </div>
+
+                  <!-- Trip Duration -->
+                  <div class="p-3 bg-gray-50/70 border border-gray-100 rounded-xl space-y-1">
+                    <span class="text-[9px] uppercase text-gray-400 font-bold block select-none flex items-center gap-1 font-sans">
+                      <i data-lucide="clock" class="w-3.5 h-3.5 text-gray-400"></i> Preferred Span
+                    </span>
+                    <span id="dash-duration" class="font-bold text-navy-900 text-xs sm:text-sm">N/A</span>
+                  </div>
+
+                  <!-- Companions -->
+                  <div class="p-3 bg-gray-50/70 border border-gray-100 rounded-xl space-y-1">
+                    <span class="text-[9px] uppercase text-gray-400 font-bold block select-none flex items-center gap-1 font-sans">
+                      <i data-lucide="users" class="w-3.5 h-3.5 text-gray-400"></i> Companions
+                    </span>
+                    <span id="dash-companions" class="font-bold text-navy-900 text-xs sm:text-sm">N/A</span>
+                  </div>
+
+                  <!-- Lodging preferences (multi-select) -->
+                  <div class="col-span-1 sm:col-span-2 lg:col-span-3 p-3.5 bg-gray-50/70 border border-gray-100 rounded-xl space-y-2">
+                    <span class="text-[9px] uppercase text-gray-400 font-bold block select-none flex items-center gap-1 font-sans">
+                      <i data-lucide="home" class="w-3.5 h-3.5 text-gray-400"></i> Accommodation Favorites
+                    </span>
+                    <div id="dash-lodgings" class="flex flex-wrap gap-1.5">
+                      <!-- Dynamically rendered -->
+                    </div>
+                  </div>
+
+                  <!-- Primary Interests -->
+                  <div class="col-span-1 sm:col-span-2 lg:col-span-3 p-3.5 bg-gray-50/70 border border-gray-100 rounded-xl space-y-2">
+                    <span class="text-[9px] uppercase text-gray-400 font-bold block select-none flex items-center gap-1 font-sans">
+                      <i data-lucide="sparkles" class="w-3.5 h-3.5 text-gray-400"></i> Primary Interests
+                    </span>
+                    <div id="dash-interests" class="flex flex-wrap gap-1.5">
+                      <!-- Dynamically rendered -->
+                    </div>
+                  </div>
+
+                  <!-- Dietary Preferences -->
+                  <div class="p-3 bg-gray-50/70 border border-gray-100 rounded-xl space-y-1">
+                    <span class="text-[9px] uppercase text-gray-400 font-bold block select-none flex items-center gap-1 font-sans">
+                      <i data-lucide="utensils" class="w-3.5 h-3.5 text-gray-400"></i> Diet / Allergy
+                    </span>
+                    <span id="dash-diet" class="font-bold text-navy-900 text-[11px] block truncate">No Preference</span>
+                  </div>
+
+                  <!-- Spoken Languages -->
+                  <div class="p-3 bg-gray-50/70 border border-gray-100 rounded-xl space-y-1">
+                    <span class="text-[9px] uppercase text-gray-400 font-bold block select-none flex items-center gap-1 font-sans">
+                      <i data-lucide="languages" class="w-3.5 h-3.5 text-gray-400"></i> Languages
+                    </span>
+                    <span id="dash-languages" class="font-bold text-navy-900 text-[11px] block truncate">English</span>
+                  </div>
+
+                  <!-- Physical Mobility -->
+                  <div class="p-3 bg-gray-50/70 border border-gray-100 rounded-xl space-y-1">
+                    <span class="text-[9px] uppercase text-gray-400 font-bold block select-none flex items-center gap-1 font-sans">
+                      <i data-lucide="footprints" class="w-3.5 h-3.5 text-gray-400"></i> Mobility Level
+                    </span>
+                    <span id="dash-mobility" class="font-bold text-primary font-sans text-[11px] block truncate">Moderate</span>
+                  </div>
+                </div>
+
+                <!-- Interactive Edit trigger -->
+                <div class="flex justify-end pt-1">
+                  <button onclick="retriggerOnboarding()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-primary/5 hover:bg-primary/10 border border-primary/20 hover:border-primary/40 text-primary rounded-lg text-[11px] font-bold transition cursor-pointer font-poppins">
+                    <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                    <span>Re-configure Profile</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+            
+            <!-- Column right: Persona, Budget Ring, Actions -->
+            <div class="lg:col-span-4 space-y-6">
+              
+              <!-- Travel Persona Placeholder -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                <div>
+                  <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-sm font-bold text-navy-900 font-poppins">Travel Persona Badge</h3>
+                    <div class="border-2 border-dashed border-gray-200 px-3 py-0.5 rounded-lg text-[11px] font-mono text-gray-400 font-medium">
+                      &lt;Travel Persona&gt;
+                    </div>
+                  </div>
+                  
+                  <div class="text-center py-4 space-y-3">
+                    <span class="p-3 bg-teal-50 text-primary rounded-2xl inline-block border border-teal-100 font-bold">
+                      <i data-lucide="compass" id="dash-badge-icon" class="w-10 h-10 text-primary"></i>
+                    </span>
+                    <div>
+                      <h4 id="dash-persona-title" class="font-bold text-lg text-navy-900">Gastronomic Explorer</h4>
+                      <p id="dash-persona-desc" class="text-xs text-gray-400 leading-relaxed font-light mt-1.5 px-4">
+                        "Alex logs an average interest level of 85% in authentic local food stands, organic bakeries, and tucked-away coffee shops."
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-4 flex justify-around text-center text-xs text-gray-500 font-light">
+                  <div>
+                    <h5 class="text-xs font-bold text-navy-900">Culture</h5>
+                    <p id="dash-trait-culture" class="font-bold text-primary mt-0.5">High</p>
+                  </div>
+                  <div class="border-r border-gray-100"></div>
+                  <div>
+                    <h5 class="text-xs font-bold text-navy-900">Tempo</h5>
+                    <p id="dash-trait-tempo" class="font-bold text-coral-500 mt-0.5">Leisurely</p>
+                  </div>
+                  <div class="border-r border-gray-100"></div>
+                  <div>
+                    <h5 class="text-xs font-bold text-navy-900">Eco</h5>
+                    <p id="dash-trait-eco" class="font-bold text-primary mt-0.5 font-mono">Organic</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Budget Snapshot Placeholder -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                <div>
+                  <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-sm font-bold text-navy-900 font-poppins">Total Savings Ring</h3>
+                    <div class="border-2 border-dashed border-gray-200 px-3 py-0.5 rounded-lg text-[11px] font-mono text-gray-400 font-medium">
+                      &lt;Budget Snapshot&gt;
+                    </div>
+                  </div>
+                  
+                  <!-- Interactive SVG Circular Progress Ring representation -->
+                  <div class="flex flex-col items-center py-4 space-y-3">
+                    <div class="relative w-28 h-28 flex items-center justify-center">
+                      <!-- Inner Text of Budget Ring -->
+                      <div class="absolute text-center">
+                        <span id="budget-percentage-text" class="text-lg font-bold font-poppins text-navy-900">72%</span>
+                        <p class="text-[9px] text-gray-400 font-light uppercase tracking-wider">spent</p>
+                      </div>
+                      
+                      <!-- Standard SVG Radial stroke -->
+                      <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                        <circle class="text-gray-100" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
+                        <circle class="text-primary transition-all duration-500 ease-out" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="70" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" id="budget-snap-ring" />
+                      </svg>
+                    </div>
+                    
+                    <div class="text-center font-poppins">
+                      <p class="text-[11px] text-gray-400 font-light">Trip Budget Allotment: <strong id="budget-snap-allotment" class="text-navy-900">$1,500</strong></p>
+                      <p id="budget-snap-spent-sub" class="text-sm font-bold text-navy-900 mt-0.5">Spent $1,080 of $1,500</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick Actions Panel -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center mb-4">
+                  <h3 class="text-sm font-bold text-navy-900 font-poppins">Quick Sandbox Actions</h3>
+                  <div class="border-2 border-dashed border-gray-200 px-2 py-0.5 rounded-lg text-[10px] font-mono text-gray-400">&lt;Quick Actions&gt;</div>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                  <button onclick="simulateExpense()" class="p-3 bg-gray-50 hover:bg-primary/10 border border-gray-100 hover:border-primary/20 text-navy-900 hover:text-primary font-bold rounded-xl text-center transition flex flex-col items-center space-y-2 cursor-pointer">
+                    <i data-lucide="plus-circle" class="w-5 h-5"></i>
+                    <span>Log Spot Expense</span>
+                  </button>
+                  <button onclick="switchTab('concierge')" class="p-3 bg-gray-50 hover:bg-primary/10 border border-gray-100 hover:border-primary/20 text-navy-900 hover:text-primary font-bold rounded-xl text-center transition flex flex-col items-center space-y-2 cursor-pointer">
+                    <i data-lucide="message-square" class="w-5 h-5"></i>
+                    <span>Converse AI</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        
+        <!-- TRIPS TAB CONTENT -->
+        <div id="tab-content-trips" class="tab-panel space-y-8 hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Trip Core Left Column (Suggested Trip & Destination Library) -->
+            <div class="lg:col-span-8 space-y-8">
+              
+              <!-- AI Suggested Trip Card -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
+                <div class="flex justify-between items-center">
+                  <span class="text-xs font-bold text-coral-500 uppercase tracking-widest px-2.5 py-1 bg-coral-500/10 rounded-full">
+                    AI Suggested Trip Core
+                  </span>
+                  <div class="border-2 border-dashed border-gray-200 px-3 py-0.5 rounded-lg text-[11px] font-mono text-gray-400 font-medium">
+                    &lt;AI Suggested Trip&gt;
+                  </div>
+                </div>
+                
+                <div class="space-y-4">
+                  <h4 class="text-2xl font-bold font-poppins text-navy-900">7-Day Scenic Tour of Kyoto, Japan</h4>
+                  <p class="text-gray-500 text-sm font-light">
+                    Generated on-the-fly for cultural buffs who want slow pacing blended with historic temple photography checkpoints.
+                  </p>
+                  
+                  <!-- Sample Checkpoints -->
+                  <div class="space-y-3.5 pl-4 border-l-2 border-primary mt-4">
+                    <div class="relative">
+                      <span class="absolute -left-[21px] top-1.5 w-2 h-2 rounded-full bg-primary ring-4 ring-white"></span>
+                      <h5 class="text-sm font-bold text-navy-900">Fushimi Inari Shrine & Bamboo Groves</h5>
+                      <p class="text-xs text-gray-400 mt-0.5">Morning - Skip the massive crowds. Arrive exactly at 6:15 AM for serene shots.</p>
+                    </div>
+                    <div class="relative">
+                      <span class="absolute -left-[21px] top-1.5 w-2 h-2 rounded-full bg-primary ring-4 ring-white"></span>
+                      <h5 class="text-sm font-bold text-navy-900">Traditional Tea Ceremony in Gion District</h5>
+                      <p class="text-xs text-gray-400 mt-0.5">Afternoon - Relax during a certified organic matcha tea ceremony with local lore.</p>
+                    </div>
+                    <div class="relative">
+                      <span class="absolute -left-[21px] top-1.5 w-2 h-2 rounded-full bg-primary ring-4 ring-white"></span>
+                      <h5 class="text-sm font-bold text-navy-900">Riverside Kaiseki Dining Experience</h5>
+                      <p class="text-xs text-gray-400 mt-0.5">Evening - Dine directly over the Kamogawa River during summer sunset.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Destination Library (Grid representation) -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center mb-6">
+                  <div>
+                    <h3 class="text-md font-bold font-poppins text-navy-900">My Destination Bookmark Library</h3>
+                    <p class="text-xs text-gray-400 font-light mt-0.5">Explore your saved destinations and upcoming exploration wishes.</p>
+                  </div>
+                  <div class="border-2 border-dashed border-gray-200 px-3 py-0.5 rounded-lg text-[11px] font-mono text-gray-400 font-medium">
+                    &lt;Destination Library&gt;
+                  </div>
+                </div>
+                
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  
+                  <!-- Place Card 1 -->
+                  <div class="bg-gray-50 rounded-xl overflow-hidden border border-gray-100 flex flex-col justify-between group">
+                    <div class="h-28 bg-gradient-to-tr from-teal-800 to-teal-500 overflow-hidden relative flex items-center justify-center text-white">
+                      <div class="absolute inset-0 bg-black/10"></div>
+                      <span class="relative font-bold font-poppins tracking-wider text-sm"><i data-lucide="mountain-snow" class="w-5 h-5 inline mr-1 opacity-75"></i> Swiss Alps</span>
+                    </div>
+                    <div class="p-4 space-y-2">
+                      <h4 class="text-sm font-bold text-navy-900">Zermatt Ski Lodge</h4>
+                      <p class="text-xs text-gray-400 font-light">Ski slopes & alpine wellness.</p>
+                    </div>
+                  </div>
+
+                  <!-- Place Card 2 -->
+                  <div class="bg-gray-50 rounded-xl overflow-hidden border border-gray-100 flex flex-col justify-between group">
+                    <div class="h-28 bg-gradient-to-tr from-amber-700 to-amber-500 overflow-hidden relative flex items-center justify-center text-white">
+                      <div class="absolute inset-0 bg-black/10"></div>
+                      <span class="relative font-bold font-poppins tracking-wider text-sm"><i data-lucide="sunset" class="w-5 h-5 inline mr-1 opacity-75"></i> Rome Sights</span>
+                    </div>
+                    <div class="p-4 space-y-2">
+                      <h4 class="text-sm font-bold text-navy-900">Colosseum Vistas</h4>
+                      <p class="text-xs text-gray-400 font-light">Vespa paths, gelato, history tours.</p>
+                    </div>
+                  </div>
+
+                  <!-- Place Card 3 -->
+                  <div class="bg-gray-50 rounded-xl overflow-hidden border border-gray-100 flex flex-col justify-between group">
+                    <div class="h-28 bg-gradient-to-tr from-indigo-800 to-indigo-500 overflow-hidden relative flex items-center justify-center text-white">
+                      <div class="absolute inset-0 bg-black/10"></div>
+                      <span class="relative font-bold font-poppins tracking-wider text-sm"><i data-lucide="waves" class="w-5 h-5 inline mr-1 opacity-75"></i> Hawaii Beach</span>
+                    </div>
+                    <div class="p-4 space-y-2">
+                      <h4 class="text-sm font-bold text-navy-900">Maui Coastal Drives</h4>
+                      <p class="text-xs text-gray-400 font-light">Snorkeling, food trucks, beaches.</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+            
+            <!-- Right Column Past Adventures -->
+            <div class="lg:col-span-4">
+              <!-- Trip History Card -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                <div>
+                  <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-sm font-bold text-navy-900 font-poppins">Travel History Logs</h3>
+                    <div class="border-2 border-dashed border-gray-200 px-3 py-0.5 rounded-lg text-[11px] font-mono text-gray-400 font-medium">
+                      &lt;Trip History&gt;
+                    </div>
+                  </div>
+                  
+                  <div class="space-y-4">
+                    <div class="p-3.5 bg-gray-50 rounded-xl border border-gray-100 flex items-center space-x-3">
+                      <div class="p-2 bg-green-50 text-green-700 rounded-lg">
+                        <i data-lucide="check" class="w-4.5 h-4.5"></i>
+                      </div>
+                      <div>
+                        <h4 class="text-xs font-bold text-navy-900">London Cultural Loop (2025)</h4>
+                        <p class="text-[10px] text-gray-400">4 Sights • Budget $1,200 (Completed)</p>
+                      </div>
+                    </div>
+                    
+                    <div class="p-3.5 bg-gray-50 rounded-xl border border-gray-100 flex items-center space-x-3">
+                      <div class="p-2 bg-green-50 text-green-700 rounded-lg">
+                        <i data-lucide="check" class="w-4.5 h-4.5"></i>
+                      </div>
+                      <div>
+                        <h4 class="text-xs font-bold text-navy-900">Milan Fashion & Espresso (2024)</h4>
+                        <p class="text-[10px] text-gray-400">8 Places • Budget $2,400 (Completed)</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        
+        <!-- EXPLORE TAB CONTENT -->
+        <div id="tab-content-explore" class="tab-panel space-y-8 hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Column: Search & Itinerary timeline slots -->
+            <div class="lg:col-span-8 space-y-8">
+              
+              <!-- Search and Filter panel (Interactive Mock) -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center mb-4">
+                  <h3 class="text-sm font-bold text-navy-900 font-poppins">Coordinate Search</h3>
+                  <div class="border-2 border-dashed border-gray-200 px-3 py-0.5 rounded-lg text-[11px] font-mono text-gray-400 font-medium">
+                    &lt;Places & Events Search&gt;
+                  </div>
+                </div>
+                
+                <div class="space-y-4">
+                  <!-- Search inputs -->
+                  <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="relative flex-grow">
+                      <i data-lucide="search" class="absolute left-3.5 top-3 w-4.5 h-4.5 text-gray-400"></i>
+                      <input type="text" id="destination-search-input" placeholder="Search cafes, museums, events in Paris..." class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary">
+                    </div>
+                    <button onclick="simulateSearch()" class="px-5 py-2.5 bg-primary hover:bg-primary/95 text-white font-bold rounded-xl text-sm cursor-pointer">
+                      Filter Live
+                    </button>
+                  </div>
+                  
+                  <!-- Categories chips -->
+                  <div class="flex flex-wrap gap-2 pt-1.5" id="category-chips">
+                    <button onclick="setSearchFilter('all', this)" class="chip-btn px-4 py-1.5 bg-primary text-white text-xs font-semibold rounded-full border border-primary">All</button>
+                    <button onclick="setSearchFilter('food', this)" class="chip-btn px-4 py-1.5 bg-gray-50 text-gray-500 text-xs font-semibold rounded-full border border-gray-100 hover:border-gray-200">Food & Bakeries</button>
+                    <button onclick="setSearchFilter('culture', this)" class="chip-btn px-4 py-1.5 bg-gray-50 text-gray-500 text-xs font-semibold rounded-full border border-gray-100 hover:border-gray-200">Culture Sights</button>
+                    <button onclick="setSearchFilter('nature', this)" class="chip-btn px-4 py-1.5 bg-gray-50 text-gray-500 text-xs font-semibold rounded-full border border-gray-100 hover:border-gray-200">Parks & Nature</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Today's Itinerary Slots representation -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center mb-6">
+                  <div>
+                    <h3 class="text-md font-bold font-poppins text-navy-900">Today's Scheduled Roadmap</h3>
+                    <p class="text-xs text-gray-400 font-light mt-0.5">Custom timeline slots mapped for your current travel group.</p>
+                  </div>
+                  <div class="border-2 border-dashed border-gray-200 px-3 py-0.5 rounded-lg text-[11px] font-mono text-gray-400 font-medium">
+                    &lt;Today's Itinerary Slots&gt;
+                  </div>
+                </div>
+                
+                <!-- Daily timeline slots -->
+                <div class="space-y-6 relative pl-5 border-l-2 border-gray-100" id="itinerary-timeline-slots">
+                  
+                  <!-- Slot 1 (Morning) -->
+                  <div class="relative space-y-2 card-item" data-category="food">
+                    <!-- Dot indicators -->
+                    <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-primary ring-4 ring-white"></span>
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                      <span class="text-xs font-mono font-bold text-primary">09:00 AM — Morning Slot</span>
+                      <span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold uppercase rounded-md">Food & Drink</span>
+                    </div>
+                    <h4 class="text-base font-bold text-navy-900">Fresh Croissants at Du Pain et des Idées</h4>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">
+                      Indulge in authentic escargot chocolate-pistachio pastries before the massive tourist queues begin forming.
+                    </p>
+                  </div>
+
+                  <!-- Slot 2 (Afternoon) -->
+                  <div class="relative space-y-2 card-item" data-category="culture">
+                    <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-coral-500 ring-4 ring-white"></span>
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                      <span class="text-xs font-mono font-bold text-coral-500">01:30 PM — Afternoon Slot</span>
+                      <span class="px-2 py-0.5 bg-[#FFEEEA] text-[#FF8E72] text-[10px] font-bold uppercase rounded-md">Culture Sights</span>
+                    </div>
+                    <h4 class="text-base font-bold text-navy-900">Louvre Audio-Guided Historic Tour</h4>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">
+                      Enter through the secret underground Carousel entryway to skip 50 minutes of general security check lines.
+                    </p>
+                  </div>
+
+                  <!-- Slot 3 (Evening) -->
+                  <div class="relative space-y-2 card-item" data-category="nature">
+                    <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-[#A855F7] ring-4 ring-white"></span>
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                      <span class="text-xs font-mono font-bold text-purple-600">07:00 PM — Evening Slot</span>
+                      <span class="px-2 py-0.5 bg-purple-50 text-purple-600 text-[10px] font-bold uppercase rounded-md">Parks & Nature</span>
+                    </div>
+                    <h4 class="text-base font-bold text-navy-900">Seine River Sunset Cruise and Walk</h4>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">
+                      Relax on the panoramic decks. Highly suggested to grab a warm crepe downstream during golden hour!
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+            
+            <!-- Right Column: Budget Ring Slider Control & Live facts -->
+            <div class="lg:col-span-4 space-y-6">
+              
+              <!-- Interactive Budget Ring Controller -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center mb-4">
+                  <h3 class="text-sm font-bold text-navy-900 font-poppins">Spent Progress Ring</h3>
+                  <div class="border-2 border-dashed border-gray-200 px-3 py-0.5 rounded-lg text-[11px] font-mono text-gray-400 font-medium">
+                    &lt;Budget Ring&gt;
+                  </div>
+                </div>
+                
+                <!-- SVG Ring -->
+                <div class="flex flex-col items-center space-y-4">
+                  <div class="relative w-32 h-32 flex items-center justify-center">
+                    <div class="absolute text-center">
+                      <span id="interactive-spent-text" class="text-xl font-bold font-poppins text-navy-900">65%</span>
+                      <p class="text-[9px] text-gray-400 font-light uppercase tracking-wider">allocated</p>
+                    </div>
+                    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                      <circle class="text-gray-100" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
+                      <circle class="text-primary transition-all duration-300" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="87.9" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" id="explore-budget-ring" />
+                    </svg>
+                  </div>
+                  
+                  <div class="w-full space-y-2">
+                    <div class="flex justify-between text-xs text-gray-400 font-medium">
+                      <span>Slide budget load:</span>
+                      <span id="slider-percentage-val" class="font-bold text-primary">65%</span>
+                    </div>
+                    <input type="range" min="0" max="100" value="65" oninput="updateInteractiveRing(this.value)" class="w-full accent-primary h-1.5 bg-gray-200 rounded-lg cursor-pointer">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick Facts Accoridon widget -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center mb-4">
+                  <h3 class="text-sm font-bold text-navy-900 font-poppins">Emergency & City Index</h3>
+                  <div class="border-2 border-dashed border-gray-200 px-2 py-0.5 rounded-lg text-[10px] font-mono text-gray-400">&lt;Quick Facts Panel&gt;</div>
+                </div>
+                
+                <!-- Quick Accordions -->
+                <div class="space-y-2 text-xs">
+                  <details class="group bg-gray-50 border border-gray-100 rounded-lg p-3.5 cursor-pointer" open>
+                    <summary class="flex justify-between items-center font-bold text-navy-900">
+                      <span>Emergency Hotline</span>
+                      <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 transform group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-[11px] text-gray-400 mt-2 font-light">Dial 112 across Paris/Eurozone. Local medical/police dispatch active 24/7.</p>
+                  </details>
+                  
+                  <details class="group bg-gray-50 border border-gray-100 rounded-lg p-3.5 cursor-pointer">
+                    <summary class="flex justify-between items-center font-bold text-navy-900">
+                      <span>Water Safety</span>
+                      <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 transform group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-[11px] text-gray-400 mt-2 font-light">Tap water is completely clean and certified healthy throughout city squares.</p>
+                  </details>
+
+                  <details class="group bg-gray-50 border border-gray-100 rounded-lg p-3.5 cursor-pointer">
+                    <summary class="flex justify-between items-center font-bold text-navy-900">
+                      <span>Metro Pickpockets Alert</span>
+                      <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 transform group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="text-[11px] text-gray-400 mt-2 font-light text-coral-500 font-semibold">Keep backpacks forward on Line 1 & Line 4 around major hub stations.</p>
+                  </details>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        
+        <!-- AI CONCIERGE TAB CONTENT -->
+        <div id="tab-content-concierge" class="tab-panel space-y-8 hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            <!-- Left Large Side: Interactive Chat Room with Globi -->
+            <div class="lg:col-span-8 flex flex-col bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden h-[540px]">
+              
+              <!-- Chat Room Title/Specs -->
+              <div class="p-4 bg-navy-900 text-white flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                  <div class="p-2 bg-primary/20 rounded-lg text-primary">
+                    <i data-lucide="sparkles" class="w-5 h-5 animate-pulse"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-xs uppercase tracking-widest text-[#FF8E72]">Chat with Globí</h4>
+                    <p class="text-[11px] text-gray-300">Your AI Butler • Online & Responsive</p>
+                  </div>
+                </div>
+                <div class="border-2 border-dashed border-white/20 px-3 py-0.5 rounded-lg text-[11px] font-mono text-gray-400 font-medium select-none">
+                  &lt;Globi Chat Coming Soon&gt;
+                </div>
+              </div>
+              
+              <!-- Messages Feed Area -->
+              <div id="chat-messages-container" class="flex-grow p-5 space-y-4 overflow-y-auto bg-gray-50/50">
+                
+                <!-- Message 1 (Globi Greeting) -->
+                <div class="flex items-start space-x-3 max-w-[85%]">
+                  <div class="w-8 h-8 rounded-lg bg-navy-900 text-white font-bold flex items-center justify-center shrink-0 shadow">G</div>
+                  <div class="bg-white p-3.5 rounded-2xl text-xs text-navy-900 border border-gray-100 leading-relaxed shadow-sm">
+                    Hello Alex! I am Globi, your AI Travel Butler. I am prepped to fetch Paris secrets, translate emergency notes, or suggest twilight cafes. Click a suggestion below to test my core! 🌲
+                  </div>
+                </div>
+                
+              </div>
+              
+              <!-- Question Suggestions Chips -->
+              <div class="px-5 py-2 whitespace-nowrap overflow-x-auto flex space-x-2 shrink-0 bg-white border-t border-gray-100 select-none">
+                <button onclick="sendPresetMessage('Find top tacos in Madrid')" class="px-3 py-1 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/10 text-xs font-medium rounded-full shrink-0 transition cursor-pointer">🌮 Top Tacos Madrid</button>
+                <button onclick="sendPresetMessage('What should I pack for Paris?')" class="px-3 py-1 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/10 text-xs font-medium rounded-full shrink-0 transition cursor-pointer">💼 Paris packing tips</button>
+                <button onclick="sendPresetMessage('Is tap water safe in Rome?')" class="px-3 py-1 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/10 text-xs font-medium rounded-full shrink-0 transition cursor-pointer">🚰 Rome Tap Water Safe?</button>
+              </div>
+
+              <!-- Message Input Core (Mock JS Interaction) -->
+              <div class="p-4 bg-white border-t border-gray-100 shrink-0 select-none">
+                <form id="chat-form" onsubmit="handleChatSubmit(event)" class="flex gap-2.5">
+                  <input type="text" id="chat-input-text" placeholder="Converse with Globi travel companion..." class="flex-grow bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary">
+                  <button type="submit" class="px-5 py-2.5 bg-primary hover:bg-primary/95 text-white font-bold rounded-xl text-xs transition inline-flex items-center space-x-1 cursor-pointer">
+                    <span>Send</span>
+                    <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                  </button>
+                </form>
+              </div>
+
+            </div>
+
+            <!-- Right Column placeholder indicators (skyscanner, etc) -->
+            <div class="lg:col-span-4 flex flex-col justify-between">
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                <div class="flex justify-between items-center mb-2">
+                  <h4 class="text-sm font-bold text-navy-900 font-poppins">Concierge Integrations</h4>
+                  <span class="text-[9px] font-mono text-gray-400 font-bold uppercase">Coming Soon</span>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed font-light">
+                  Soon Globi will connect with flight engines and mobile eSIM networks:
+                </p>
+                
+                <div class="space-y-3 pt-2">
+                  <div class="p-3 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 text-xs font-medium text-gray-400">
+                    <i data-lucide="plane" class="w-4 h-4 inline mr-1 text-primary"></i> Skype-Flight Tracker
+                  </div>
+                  <div class="p-3 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 text-xs font-medium text-gray-400">
+                    <i data-lucide="phone-call" class="w-4 h-4 inline mr-1 text-primary"></i> Local eSIM Purchase Relay
+                  </div>
+                  <div class="p-3 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 text-xs font-medium text-gray-400">
+                    <i data-lucide="shield-check" class="w-4 h-4 inline mr-1 text-[#FF8E72]"></i> Emergency SMS Relay
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        
+        <!-- PROFILE TAB CONTENT -->
+        <div id="tab-content-profile" class="tab-panel space-y-8 hidden">
+          <div class="max-w-xl mx-auto bg-white p-8 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden">
+            <!-- Travel background element -->
+            <div class="absolute right-0 top-0 w-32 h-32 bg-primary/5 rounded-full -mr-10 -mt-10"></div>
+            
+            <div class="space-y-8">
+              <div class="text-center space-y-4">
+                <!-- Large Avatar -->
+                <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-primary via-[#4FD1C5] to-coral-500 text-white flex items-center justify-center font-bold text-3xl mx-auto shadow-lg shadow-primary/25 relative">
+                  AM
+                  <!-- Active Ring badge online -->
+                  <span class="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-4 border-white"></span>
+                </div>
+                
+                <div>
+                  <h3 id="profile-name" class="text-2xl font-bold font-poppins text-navy-900">Alex Mercer</h3>
+                  <p id="profile-email" class="text-xs text-gray-400 mt-1">alex.mercer@wanderwise.ai</p>
+                  <span id="profile-persona" class="mt-3 inline-block px-3 py-1 bg-coral-500/10 text-coral-500 text-[11px] font-bold tracking-wider uppercase rounded-full border border-coral-500/10">
+                    Elite Wanderer Persona
+                  </span>
+                </div>
+              </div>
+              
+              <!-- Metrics grid -->
+              <div class="grid grid-cols-3 gap-4 border-y border-gray-100 py-6 text-center">
+                <div>
+                  <h5 class="text-xl font-bold text-navy-900 font-poppins">14</h5>
+                  <p class="text-[10px] text-gray-400 mt-0.5 uppercase tracking-wider">Countries</p>
+                </div>
+                <div>
+                  <h5 class="text-xl font-bold text-[#FF8E72] font-poppins">32</h5>
+                  <p class="text-[10px] text-gray-400 mt-0.5 uppercase tracking-wider">Loves Logged</p>
+                </div>
+                <div>
+                  <h5 class="text-xl font-bold text-primary font-poppins">98%</h5>
+                  <p class="text-[10px] text-gray-400 mt-0.5 uppercase tracking-wider">Eco Score</p>
+                </div>
+              </div>
+              
+              <div class="space-y-3.5">
+                <div class="flex items-center justify-between text-xs p-3.5 bg-gray-50 rounded-xl border border-gray-100">
+                  <span class="text-gray-500">Subscription Tier</span>
+                  <span class="font-bold text-navy-900 flex items-center"><i data-lucide="crown" class="w-4 h-4 text-amber-500 mr-1"></i> Explorer Premium</span>
+                </div>
+                
+                <div class="flex items-center justify-between text-xs p-3.5 bg-gray-50 rounded-xl border border-gray-100">
+                  <span class="text-gray-500">Cloud Data Storage</span>
+                  <span class="font-bold text-primary">34.5 KB used of 10 MB</span>
+                </div>
+              </div>
+              
+              <!-- Log Out and switch back to Landing -->
+              <button onclick="logOut()" class="w-full py-3.5 bg-red-50 hover:bg-red-100 text-red-600 font-semibold rounded-xl text-center text-sm transition tracking-wide cursor-pointer flex items-center justify-center space-x-2">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+                <span>Log Out of WanderWise</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- App Shell Footer Status (desktop indicator) -->
+      <footer class="hidden md:block py-3 px-8 bg-white border-t border-gray-100 text-[10px] text-gray-400 shrink-0">
+        <div class="flex justify-between items-center font-mono">
+          <span>Version 1.4.2 (Static preview sandbox)</span>
+          <span>WanderWise App Engine live: 0.0.0.0:3000 Ingress</span>
+        </div>
+      </footer>
+      
+      <!-- Sticky Bottom Mobile Tab Bar (Visible on screens smaller than md:hidden) -->
+      <nav class="md:hidden fixed bottom-1.5 left-1.5 right-1.5 h-16 bg-navy-900 border border-white/10 rounded-2xl z-50 flex justify-around items-center px-2 py-1 shadow-2xl shadow-navy-950/40 select-none">
+        <button onclick="switchTab('dashboard')" class="mobile-tab-btn flex flex-col items-center justify-center text-gray-400 focus:outline-none transition scale-90" data-mobile-tab="dashboard">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span class="text-[9px] mt-1 font-medium">Dashboard</span>
+        </button>
+        <button onclick="switchTab('trips')" class="mobile-tab-btn flex flex-col items-center justify-center text-gray-400 focus:outline-none transition scale-90" data-mobile-tab="trips">
+          <i data-lucide="navigation" class="w-5 h-5"></i>
+          <span class="text-[9px] mt-1 font-medium">Trips</span>
+        </button>
+        <button onclick="switchTab('explore')" class="mobile-tab-btn flex flex-col items-center justify-center text-gray-400 focus:outline-none transition scale-90" data-mobile-tab="explore">
+          <i data-lucide="search" class="w-5 h-5"></i>
+          <span class="text-[9px] mt-1 font-medium font-poppins">Explore</span>
+        </button>
+        <button onclick="switchTab('concierge')" class="mobile-tab-btn flex flex-col items-center justify-center text-gray-400 focus:outline-none transition scale-90" data-mobile-tab="concierge">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+          <span class="text-[9px] mt-1 font-medium">Concierge</span>
+        </button>
+        <button onclick="switchTab('profile')" class="mobile-tab-btn flex flex-col items-center justify-center text-gray-400 focus:outline-none transition scale-90" data-mobile-tab="profile">
+          <i data-lucide="user" class="w-5 h-5"></i>
+          <span class="text-[9px] mt-1 font-medium">Profile</span>
+        </button>
+      </nav>
+
+    </main>
+
+  </div>
+
+  <!-- ============================================== -->
+  <!-- VANILLA INJECTED JAVASCRIPT STATE ENGINE       -->
+  <!-- ============================================== -->
+  <script>
+    // App core view State object
+    let appState = {
+      currentView: 'landing', // 'landing' | 'auth' | 'onboarding' | 'app'
+      currentTab: 'dashboard', // 'dashboard' | 'trips' | 'explore' | 'concierge' | 'profile'
+      searchFilter: 'all',
+      simulatedSpentAmount: 1080,
+    };
+
+    // Onboarding wizards parameters state tracking
+    let obState = {
+      step: 1,
+      fullname: '',
+      dob: '',
+      homeCity: '',
+      currency: 'INR',
+      travelStyle: 'Adventure',
+      tripDuration: 'Weekend',
+      budgetTier: 'Budget',
+      accommodation: [],
+      companions: 'Solo',
+      foodPrefs: [],
+      interests: [],
+      languages: [],
+      mobility: 2,
+    };
+
+    // Initialize state setups on load
+    document.addEventListener("DOMContentLoaded", function() {
+      // Dynamic Toast container setup
+      if (!document.getElementById('toast-container')) {
+        const tContainer = document.createElement('div');
+        tContainer.id = 'toast-container';
+        tContainer.className = 'fixed bottom-5 right-5 z-[9999] flex flex-col gap-2 pointer-events-none';
+        document.body.appendChild(tContainer);
+      }
+
+      lucide.createIcons();
+      updateSidebarNavColors();
+      
+      // Initialize dynamic user profile values from localStorage if available
+      initUserProfile();
+      
+      // Dynamic Sticky Scroll Navbar Event
+      window.addEventListener('scroll', function() {
+        const header = document.getElementById('navbar');
+        if (!header) return;
+        if (window.scrollY > 40) {
+          header.classList.add('shadow-lg', 'py-3', 'bg-navy-950');
+          header.classList.remove('py-4', 'bg-navy-900/90');
+        } else {
+          header.classList.add('py-4', 'bg-navy-900/90');
+          header.classList.remove('shadow-lg', 'py-3', 'bg-navy-950');
+        }
+      });
+    });
+
+    // Custom Toast alert system
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      
+      const toast = document.createElement('div');
+      toast.className = `p-4 rounded-xl shadow-lg border text-xs font-semibold flex items-center space-x-2 transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto ${
+        type === 'error' 
+          ? 'bg-red-650 border-red-500 text-white bg-red-600' 
+          : 'bg-teal-650 border-teal-500 text-white bg-primary'
+      }`;
+      
+      const icon = type === 'error' ? 'alert-circle' : 'check-circle2';
+      toast.innerHTML = `
+        <i data-lucide="${icon}" class="w-4 h-4"></i>
+        <span>${message}</span>
+      `;
+      
+      container.appendChild(toast);
+      
+      // trigger transition fade classes
+      setTimeout(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+        lucide.createIcons();
+      }, 10);
+      
+      // automatic trash timer
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-[-10px]');
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+      }, 3000);
+    }
+
+    // Toggle Mobile dropdown menu
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const icon = document.getElementById('burger-icon');
+      
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        icon.setAttribute('data-lucide', 'x');
+      } else {
+        menu.classList.add('hidden');
+        icon.setAttribute('data-lucide', 'menu');
+      }
+      lucide.createIcons();
+    }
+
+    // Smooth Generalized Transitions Callback Router
+    function transitionViews(fromId, toId, onComplete = null) {
+      const fromEl = document.getElementById(fromId);
+      const toEl = document.getElementById(toId);
+      if (!fromEl || !toEl) return;
+      
+      fromEl.classList.add('opacity-0', 'scale-[0.98]');
+      setTimeout(() => {
+        fromEl.classList.add('hidden');
+        toEl.classList.remove('hidden');
+        toEl.classList.add('opacity-0', 'scale-[1.02]');
+        setTimeout(() => {
+          toEl.classList.remove('opacity-0', 'scale-[1.02]');
+          toEl.classList.add('opacity-100', 'scale-100');
+          if (onComplete) onComplete();
+        }, 50);
+      }, 450);
+    }
+
+    // Navigation back to landing helper
+    function goToLanding() {
+      transitionViews('auth-view', 'landing-view', () => {
+        appState.currentView = 'landing';
+      });
+    }
+
+    // Router controller for entering the app (triggers Login/Auth screen first if non-authenticated)
+    function enterApp() {
+      const userProfileStr = localStorage.getItem('userProfile');
+      const currentUserStr = localStorage.getItem('currentUser');
+      
+      const landing = document.getElementById('landing-view');
+      landing.classList.add('opacity-0', 'scale-[0.98]');
+      
+      setTimeout(() => {
+        landing.classList.add('hidden');
+        
+        if (!currentUserStr) {
+          // Go to Auth panel
+          const auth = document.getElementById('auth-view');
+          auth.classList.remove('hidden');
+          auth.classList.add('opacity-0', 'scale-[1.02]');
+          setTimeout(() => {
+            auth.classList.remove('opacity-0', 'scale-[1.02]');
+            auth.classList.add('opacity-100', 'scale-100');
+            appState.currentView = 'auth';
+          }, 50);
+        } else if (!userProfileStr) {
+          // Go to Onboarding wizard
+          const ob = document.getElementById('onboarding-view');
+          ob.classList.remove('hidden');
+          ob.classList.add('opacity-0', 'scale-[1.02]');
+          setTimeout(() => {
+            ob.classList.remove('opacity-0', 'scale-[1.02]');
+            ob.classList.add('opacity-100', 'scale-100');
+            appState.currentView = 'onboarding';
+            startOnboarding();
+          }, 50);
+        } else {
+          // Main app dashboard
+          const app = document.getElementById('app-view');
+          app.classList.remove('hidden');
+          app.classList.add('opacity-0', 'scale-[1.02]');
+          setTimeout(() => {
+            app.classList.remove('opacity-0', 'scale-[1.02]');
+            app.classList.add('opacity-100', 'scale-100');
+            appState.currentView = 'app';
+            initUserProfile();
+            switchTab('dashboard');
+          }, 50);
+        }
+      }, 400);
+    }
+
+    // Log-out actions clearing active cookies/localStorage credentials
+    function logOut() {
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('userProfile');
+      
+      const landing = document.getElementById('landing-view');
+      const app = document.getElementById('app-view');
+      
+      app.classList.add('opacity-0');
+      
+      setTimeout(() => {
+        app.classList.add('hidden');
+        landing.classList.remove('hidden');
+        landing.classList.add('opacity-0');
+        
+        setTimeout(() => {
+          landing.classList.remove('opacity-0');
+          landing.classList.add('opacity-100', 'scale-100');
+          appState.currentView = 'landing';
+          
+          // Clear active state configurations
+          obState = {
+            step: 1,
+            fullname: '',
+            dob: '',
+            homeCity: '',
+            currency: 'INR',
+            travelStyle: 'Adventure',
+            tripDuration: 'Weekend',
+            budgetTier: 'Budget',
+            accommodation: [],
+            companions: 'Solo',
+            foodPrefs: [],
+            interests: [],
+            languages: [],
+            mobility: 2,
+          };
+        }, 50);
+      }, 400);
+    }
+
+    // Switch between Sign-in and Sign-up tabs safely
+    function toggleAuthTab(tab) {
+      const signInBtn = document.getElementById('tab-signin-btn');
+      const signUpBtn = document.getElementById('tab-signup-btn');
+      const signInForm = document.getElementById('signin-form');
+      const signUpForm = document.getElementById('signup-form');
+      
+      if (tab === 'signin') {
+        signInBtn.className = "flex-1 pb-3 text-center border-b-2 border-primary text-white focus:outline-none transition-all cursor-pointer";
+        signUpBtn.className = "flex-1 pb-3 text-center border-b-2 border-transparent text-slate-400 hover:text-white focus:outline-none transition-all cursor-pointer";
+        signInForm.classList.remove('hidden');
+        signUpForm.classList.add('hidden');
+      } else {
+        signUpBtn.className = "flex-1 pb-3 text-center border-b-2 border-primary text-white focus:outline-none transition-all cursor-pointer";
+        signInBtn.className = "flex-1 pb-3 text-center border-b-2 border-transparent text-slate-400 hover:text-white focus:outline-none transition-all cursor-pointer";
+        signUpForm.classList.remove('hidden');
+        signInForm.classList.add('hidden');
+      }
+    }
+
+    // Sign Up Submission Handle
+    function handleSignUpSubmit(e) {
+      e.preventDefault();
+      const fullname = document.getElementById('signup-fullname').value.trim();
+      const email = document.getElementById('signup-email').value.trim().toLowerCase();
+      const password = document.getElementById('signup-password').value;
+      const confirm = document.getElementById('signup-confirm').value;
+      
+      if (!fullname || !email || !password || !confirm) {
+        showToast('Please fill out all fields.', 'error');
+        return;
+      }
+      
+      if (password !== confirm) {
+        showToast('Passwords do not match.', 'error');
+        return;
+      }
+      
+      let users = [];
+      const storedUsers = localStorage.getItem('users');
+      if (storedUsers) {
+        users = JSON.parse(storedUsers);
+      }
+      
+      const exists = users.find(u => u.email === email);
+      if (exists) {
+        showToast('Email address is already registered.', 'error');
+        return;
+      }
+      
+      const newUser = { fullname, email, password };
+      users.push(newUser);
+      
+      localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('currentUser', JSON.stringify({ name: fullname, email: email }));
+      
+      showToast('Account created successfully!', 'success');
+      
+      // Clear sign-up forms
+      document.getElementById('signup-fullname').value = '';
+      document.getElementById('signup-email').value = '';
+      document.getElementById('signup-password').value = '';
+      document.getElementById('signup-confirm').value = '';
+      
+      setTimeout(() => {
+        transitionViews('auth-view', 'onboarding-view', () => {
+          appState.currentView = 'onboarding';
+          startOnboarding();
+        });
+      }, 500);
+    }
+
+    // Sign In Submission Handle
+    function handleSignInSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('signin-email').value.trim().toLowerCase();
+      const password = document.getElementById('signin-password').value;
+      
+      if (!email || !password) {
+        showToast('Please fill out all fields.', 'error');
+        return;
+      }
+      
+      let users = [];
+      const storedUsers = localStorage.getItem('users');
+      if (storedUsers) {
+        users = JSON.parse(storedUsers);
+      }
+      
+      const user = users.find(u => u.email === email && u.password === password);
+      if (!user) {
+        showToast('Invalid email or password combination.', 'error');
+        return;
+      }
+      
+      localStorage.setItem('currentUser', JSON.stringify({ name: user.fullname, email: user.email }));
+      showToast(`Welcome back, ${user.fullname}!`, 'success');
+      
+      // Clear inputs
+      document.getElementById('signin-email').value = '';
+      document.getElementById('signin-password').value = '';
+      
+      setTimeout(() => {
+        const profileStr = localStorage.getItem('userProfile');
+        if (profileStr) {
+          transitionViews('auth-view', 'app-view', () => {
+            appState.currentView = 'app';
+            initUserProfile();
+            switchTab('dashboard');
+          });
+        } else {
+          transitionViews('auth-view', 'onboarding-view', () => {
+            appState.currentView = 'onboarding';
+            startOnboarding();
+          });
+        }
+      }, 500);
+    }
+
+    // Continue as default Guest Traveller Action
+    function continueAsGuest() {
+      const guestUser = { name: "Guest Traveller", email: "guest@wanderwise.local" };
+      localStorage.setItem('currentUser', JSON.stringify(guestUser));
+      showToast('Continuing as Guest Traveller.', 'success');
+      
+      setTimeout(() => {
+        transitionViews('auth-view', 'onboarding-view', () => {
+          appState.currentView = 'onboarding';
+          startOnboarding();
+        });
+      }, 500);
+    }
+
+    // Initialize/reset Onboarding Wizard layout states
+    function startOnboarding() {
+      const currentUserStr = localStorage.getItem('currentUser');
+      if (currentUserStr) {
+        const currentUser = JSON.parse(currentUserStr);
+        obState.fullname = currentUser.name || '';
+      }
+      
+      obState.step = 1;
+      document.getElementById('ob-fullname').value = obState.fullname;
+      document.getElementById('ob-dob').value = '';
+      document.getElementById('ob-homecity').value = '';
+      
+      // Preset selections
+      setObCurrency('INR');
+      selectObStyle('Adventure');
+      setObDuration('Weekend');
+      selectObBudget('Budget');
+      obState.accommodation = [];
+      renderAccommodationChips();
+      setObCompanions('Solo');
+      obState.foodPrefs = [];
+      renderFoodPrefs();
+      obState.interests = [];
+      renderInterests();
+      obState.languages = [];
+      renderLanguages();
+      document.getElementById('ob-mobility').value = 2;
+      updateObMobilityLabel(2);
+      
+      renderStep(1);
+    }
+
+    // Step state router updating active forms & progress bar parameters
+    function renderStep(step) {
+      obState.step = step;
+      
+      // Clear forms visible
+      document.querySelectorAll('.ob-step').forEach(el => el.classList.add('hidden'));
+      
+      const stepTitleMap = {
+        1: 'Basics Information',
+        2: 'Personal Travel Style',
+        3: 'Budget & Stay Vibes',
+        4: 'Interests & Restrictions',
+        5: 'Persona Summary'
+      };
+      
+      const stepIndicator = document.getElementById('onboarding-step-indicator');
+      const stepTitle = document.getElementById('onboarding-step-title');
+      const progressBar = document.getElementById('onboarding-progress-bar');
+      const nextBtn = document.getElementById('ob-next-btn');
+      const backBtn = document.getElementById('ob-back-btn');
+      
+      if (step <= 4) {
+        const activeStep = document.getElementById(`ob-step-${step}`);
+        if (activeStep) activeStep.classList.remove('hidden');
+        if (stepIndicator) stepIndicator.textContent = step;
+        if (stepTitle) stepTitle.textContent = stepTitleMap[step];
+        if (progressBar) progressBar.style.width = `${step * 25}%`;
+        if (nextBtn) {
+          nextBtn.innerHTML = `<span>Continue</span><i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+        }
+      } else {
+        const summaryView = document.getElementById('ob-summary');
+        if (summaryView) summaryView.classList.remove('hidden');
+        if (stepIndicator) stepIndicator.textContent = 'Complete';
+        if (stepTitle) stepTitle.textContent = stepTitleMap[5];
+        if (progressBar) progressBar.style.width = `100%`;
+        if (nextBtn) {
+          nextBtn.innerHTML = `<span>Start Exploring</span><i data-lucide="plane" class="w-4 h-4"></i>`;
+        }
+      }
+      
+      if (backBtn) {
+        if (step === 1) {
+          backBtn.classList.add('invisible');
+        } else {
+          backBtn.classList.remove('invisible');
+        }
+      }
+      
+      lucide.createIcons();
+    }
+
+    // Step onwards flow controller
+    function obNext() {
+      if (obState.step === 1) {
+        const fullname = document.getElementById('ob-fullname').value.trim();
+        const dob = document.getElementById('ob-dob').value;
+        const homeCity = document.getElementById('ob-homecity').value.trim();
+        
+        if (!fullname) {
+          showToast('Please enter your full name.', 'error');
+          return;
+        }
+        if (!dob) {
+          showToast('Please select your date of birth.', 'error');
+          return;
+        }
+        if (!homeCity) {
+          showToast('Please enter or select a home city.', 'error');
+          return;
+        }
+        
+        obState.fullname = fullname;
+        obState.dob = dob;
+        obState.homeCity = homeCity;
+        
+        renderStep(2);
+      } else if (obState.step === 2) {
+        if (!obState.travelStyle) {
+          showToast('Please select a traveler style.', 'error');
+          return;
+        }
+        renderStep(3);
+      } else if (obState.step === 3) {
+        if (obState.accommodation.length === 0) {
+          showToast('Please select at least one accommodation preference.', 'error');
+          return;
+        }
+        renderStep(4);
+      } else if (obState.step === 4) {
+        calculatePersona();
+        renderStep(5);
+      } else if (obState.step === 5) {
+        saveUserProfileAndLaunch();
+      }
+    }
+
+    // Step backwards flow flow controller
+    function obBack() {
+      if (obState.step > 1) {
+        renderStep(obState.step - 1);
+      }
+    }
+
+    // Style card highlight configurations mapping styles to active classes
+    function selectObStyle(styleName) {
+      obState.travelStyle = styleName;
+      document.querySelectorAll('.ob-style-card').forEach(card => {
+        card.classList.remove('border-primary', 'bg-primary/5', 'ring-2', 'ring-primary/20');
+        card.classList.add('border-slate-200', 'bg-white');
+      });
+      const selected = document.getElementById(`style-${styleName}`);
+      if (selected) {
+        selected.classList.remove('border-slate-200', 'bg-white');
+        selected.classList.add('border-primary', 'bg-primary/5', 'ring-2', 'ring-primary/20');
+      }
+    }
+
+    // Duration buttons active toggles
+    function setObDuration(duration) {
+      obState.tripDuration = duration;
+      const buttons = ['Weekend', '1 week', '2 weeks', '1 month+'];
+      buttons.forEach(btnId => {
+        const cleanId = btnId.replace(' ', '').replace('+', '');
+        const btn = document.getElementById(`dur-${cleanId}`);
+        if (btn) {
+          if (btnId === duration) {
+            btn.className = "py-2.5 px-3 border border-primary bg-primary text-white rounded-xl transition text-xs font-semibold cursor-pointer";
+          } else {
+            btn.className = "py-2.5 px-3 border border-slate-200 hover:border-slate-300 rounded-xl transition text-xs font-semibold text-slate-600 cursor-pointer";
+          }
+        }
+      });
+    }
+
+    // Budget card highlight configurations
+    function selectObBudget(budget) {
+      obState.budgetTier = budget;
+      document.querySelectorAll('.ob-budget-card').forEach(card => {
+        card.classList.remove('border-primary', 'bg-primary/5', 'ring-2', 'ring-primary/20');
+        card.classList.add('border-slate-200');
+      });
+      const cleanId = budget.replace('-', '');
+      const selected = document.getElementById(`budget-${cleanId}`);
+      if (selected) {
+        selected.classList.add('border-primary', 'bg-primary/5', 'ring-2', 'ring-primary/20');
+        selected.classList.remove('border-slate-200');
+      }
+    }
+
+    // Accommodation multi-select chip modifiers
+    function toggleObAccommodation(type) {
+      const idx = obState.accommodation.indexOf(type);
+      if (idx > -1) {
+        obState.accommodation.splice(idx, 1);
+      } else {
+        obState.accommodation.push(type);
+      }
+      renderAccommodationChips();
+    }
+
+    // Accommodation chips physical renderer
+    function renderAccommodationChips() {
+      const types = ['Hostel', 'Hotel', 'Airbnb', 'Resort', 'Homestay'];
+      types.forEach(type => {
+        const btn = document.getElementById(`accom-${type}`);
+        if (btn) {
+          if (obState.accommodation.includes(type)) {
+            btn.className = "py-2 px-4 border border-primary bg-primary text-white rounded-full transition text-xs font-semibold cursor-pointer";
+          } else {
+            btn.className = "py-2 px-4 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer";
+          }
+        }
+      });
+    }
+
+    // Companions buttons configurations
+    function setObCompanions(comp) {
+      obState.companions = comp;
+      const comps = ['Solo', 'Couple', 'Family', 'Friends'];
+      comps.forEach(c => {
+        const btn = document.getElementById(`comp-${c}`);
+        if (btn) {
+          if (c === comp) {
+            btn.className = "py-2.5 border border-primary bg-primary text-white rounded-xl transition text-xs font-semibold cursor-pointer";
+          } else {
+            btn.className = "py-2.5 border border-slate-200 hover:border-slate-300 rounded-xl transition text-xs font-semibold text-slate-600 cursor-pointer";
+          }
+        }
+      });
+    }
+
+    // Food allergy/diet multi-select modifiers
+    function toggleObFoodPref(pref) {
+      const idx = obState.foodPrefs.indexOf(pref);
+      if (idx > -1) {
+        obState.foodPrefs.splice(idx, 1);
+      } else {
+        obState.foodPrefs.push(pref);
+      }
+      renderFoodPrefs();
+    }
+
+    // Food chips physical renderer
+    function renderFoodPrefs() {
+      const list = ['No Preference', 'Vegetarian', 'Vegan', 'Halal', 'Kosher', 'Gluten-Free'];
+      list.forEach(pref => {
+        const cleanId = pref.replace(' ', '').replace('-', '');
+        const btn = document.getElementById(`food-${cleanId}`);
+        if (btn) {
+          if (obState.foodPrefs.includes(pref)) {
+            btn.className = "py-1.5 px-3.5 border border-primary bg-primary text-white rounded-full transition text-xs font-semibold cursor-pointer";
+          } else {
+            btn.className = "py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer";
+          }
+        }
+      });
+    }
+
+    // Interests multi-select modifiers
+    function toggleObInterest(interest) {
+      const idx = obState.interests.indexOf(interest);
+      if (idx > -1) {
+        obState.interests.splice(idx, 1);
+      } else {
+        obState.interests.push(interest);
+      }
+      renderInterests();
+    }
+
+    // Interests list chips physical renderer
+    function renderInterests() {
+      const list = ['Beaches', 'Mountains', 'History', 'Nightlife', 'Food', 'Shopping', 'Wildlife', 'Adventure Sports'];
+      list.forEach(interest => {
+        const cleanId = interest.replace(' ', '');
+        const btn = document.getElementById(`int-${cleanId}`);
+        if (btn) {
+          if (obState.interests.includes(interest)) {
+            btn.className = "py-1.5 px-3.5 border border-primary bg-primary text-white rounded-full transition text-xs font-semibold cursor-pointer";
+          } else {
+            btn.className = "py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer";
+          }
+        }
+      });
+    }
+
+    // Languages spoken multi-select modifiers
+    function toggleObLanguage(lang) {
+      const idx = obState.languages.indexOf(lang);
+      if (idx > -1) {
+        obState.languages.splice(idx, 1);
+      } else {
+        obState.languages.push(lang);
+      }
+      renderLanguages();
+    }
+
+    // Languages spoken chips physical renderer
+    function renderLanguages() {
+      const list = ['English', 'Hindi', 'Spanish', 'French', 'Italian', 'German', 'Japanese'];
+      list.forEach(lang => {
+        const btn = document.getElementById(`lang-${lang}`);
+        if (btn) {
+          if (obState.languages.includes(lang)) {
+            btn.className = "py-1.5 px-3.5 border border-primary bg-primary text-white rounded-full transition text-xs font-semibold cursor-pointer";
+          } else {
+            btn.className = "py-1.5 px-3.5 border border-slate-200 rounded-full transition text-xs font-semibold text-slate-600 cursor-pointer";
+          }
+        }
+      });
+    }
+
+    // Physical mobility label slider updates
+    function updateObMobilityLabel(val) {
+      obState.mobility = parseInt(val);
+      const label = document.getElementById('mobility-label-val');
+      const textMap = { 1: 'Low', 2: 'Moderate', 3: 'High' };
+      if (label) {
+        label.textContent = textMap[val] || 'Moderate';
+      }
+    }
+
+    // Quick home city choices selector
+    function selectObHomeCity(city) {
+      const input = document.getElementById('ob-homecity');
+      if (input) {
+        input.value = city;
+        obState.homeCity = city;
+      }
+    }
+
+    // Currency selector modifier
+    function setObCurrency(currency) {
+      obState.currency = currency;
+      const list = ['INR', 'USD', 'EUR', 'GBP'];
+      list.forEach(curr => {
+        const btn = document.getElementById(`curr-${curr.toLowerCase()}`);
+        if (btn) {
+          if (curr === currency) {
+            btn.className = "py-3 px-2 border-2 border-primary bg-primary/5 text-primary rounded-xl transition font-semibold text-xs cursor-pointer";
+          } else {
+            btn.className = "py-3 px-2 border-2 border-slate-200 hover:border-slate-300 rounded-xl transition text-slate-600 font-semibold text-xs cursor-pointer";
+          }
+        }
+      });
+      updateBudgetSpendHints(currency);
+    }
+
+    // Budget helper spend cards labels dynamically modifying when currencies are swapped
+    function updateBudgetSpendHints(curr) {
+      const hints = {
+        INR: { budget: '₹2,000 / day', midrange: '₹6,000 / day', luxury: '₹15,000 / day' },
+        USD: { budget: '$40 / day', midrange: '$120 / day', luxury: '$350 / day' },
+        EUR: { budget: '€35 / day', midrange: '€110 / day', luxury: '€320 / day' },
+        GBP: { budget: '£30 / day', midrange: '£95 / day', luxury: '£280 / day' }
+      };
+      const data = hints[curr] || hints.INR;
+      const hBudget = document.getElementById('hint-budget-text');
+      const hMidrange = document.getElementById('hint-midrange-text');
+      const hLuxury = document.getElementById('hint-luxury-text');
+      if (hBudget) hBudget.textContent = data.budget;
+      if (hMidrange) hMidrange.textContent = data.midrange;
+      if (hLuxury) hLuxury.textContent = data.luxury;
+    }
+
+    // Compute Persona and Allocate Budgets matrices
+    function calculatePersona() {
+      const personaSuffix = {
+        'Adventure': 'Adventurer',
+        'Relaxation': 'Unwinder',
+        'Cultural': 'Explorer',
+        'Foodie': 'Gourmand',
+        'Backpacker': 'Globetrotter',
+        'Luxury': 'Elite Connoisseur'
+      };
+      const suffix = personaSuffix[obState.travelStyle] || 'Explorer';
+      let personaStr = `${obState.travelStyle} ${obState.budgetTier} ${suffix}`;
+      
+      if (obState.travelStyle === 'Backpacker' && obState.budgetTier === 'Budget') {
+        personaStr = 'Backpacker Adventurer';
+      } else if (obState.travelStyle === 'Cultural' && obState.budgetTier === 'Mid-range') {
+        personaStr = 'Cultural Mid-range Explorer';
+      }
+      
+      obState.travelPersona = personaStr;
+      
+      const rates = {
+        INR: { 'Budget': 2000, 'Mid-range': 6000, 'Luxury': 15000 },
+        USD: { 'Budget': 40, 'Mid-range': 120, 'Luxury': 350 },
+        EUR: { 'Budget': 35, 'Mid-range': 110, 'Luxury': 320 },
+        GBP: { 'Budget': 30, 'Mid-range': 95, 'Luxury': 280 }
+      };
+      const curRates = rates[obState.currency] || rates.INR;
+      const budgetAmount = curRates[obState.budgetTier] || 2000;
+      obState.dailyBudgetValue = budgetAmount;
+      
+      const symbols = { INR: '₹', USD: '$', EUR: '€', GBP: '£' };
+      const sym = symbols[obState.currency] || '₹';
+      obState.dailyBudgetFormatted = `${sym}${budgetAmount.toLocaleString()}`;
+      
+      obState.budgetSplit = {
+        stay: 40,
+        food: 25,
+        transport: 15,
+        activities: 15,
+        shopping: 5
+      };
+      
+      // Load into summary view components
+      const summaryPersona = document.getElementById('summary-persona');
+      if (summaryPersona) summaryPersona.textContent = obState.travelPersona;
+      
+      const summaryBudgetCalc = document.getElementById('summary-budget-calc');
+      if (summaryBudgetCalc) {
+        summaryBudgetCalc.textContent = `Calculated Daily Budget Allocation: ${obState.dailyBudgetFormatted} / day`;
+      }
+      
+      const tdFullname = document.getElementById('td-fullname');
+      if (tdFullname) tdFullname.textContent = obState.fullname;
+      
+      const tdHomecity = document.getElementById('td-homecity');
+      if (tdHomecity) tdHomecity.textContent = obState.homeCity;
+      
+      const tdDob = document.getElementById('td-dob');
+      if (tdDob) {
+        const parts = obState.dob.split('-');
+        if (parts.length === 3) {
+          tdDob.textContent = `${parts[2]}/${parts[1]}/${parts[0]}`;
+        } else {
+          tdDob.textContent = obState.dob;
+        }
+      }
+      
+      const tdCurrency = document.getElementById('td-currency');
+      if (tdCurrency) {
+        tdCurrency.textContent = `${obState.currency} (${obState.tripDuration})`;
+      }
+      
+      const tdStays = document.getElementById('td-stays');
+      if (tdStays) {
+        tdStays.textContent = obState.accommodation.join(', ');
+      }
+      
+      const tdCompanions = document.getElementById('td-companions');
+      if (tdCompanions) {
+        tdCompanions.textContent = obState.companions;
+      }
+      
+      const tdInterests = document.getElementById('td-interests');
+      if (tdInterests) {
+        const intStr = obState.interests.join(', ') || 'None';
+        const foodStr = obState.foodPrefs.join(', ') || 'No Preference';
+        tdInterests.textContent = `Interests: ${intStr} | Diet: ${foodStr}`;
+      }
+    }
+
+    // Save final results and trigger entry to application shell
+    function saveUserProfileAndLaunch() {
+      const finalProfileObj = {
+        name: obState.fullname,
+        dob: obState.dob,
+        homeCity: obState.homeCity,
+        currency: obState.currency,
+        travelStyle: obState.travelStyle,
+        tripDuration: obState.tripDuration,
+        budgetTier: obState.budgetTier,
+        accommodation: obState.accommodation,
+        companions: obState.companions,
+        foodPrefs: obState.foodPrefs,
+        interests: obState.interests,
+        languages: obState.languages,
+        mobility: obState.mobility,
+        travelPersona: obState.travelPersona,
+        dailyBudget: obState.dailyBudgetFormatted,
+        budgetSplit: obState.budgetSplit
+      };
+      
+      localStorage.setItem('userProfile', JSON.stringify(finalProfileObj));
+      showToast('Profile configured successfully!', 'success');
+      
+      setTimeout(() => {
+        transitionViews('onboarding-view', 'app-view', () => {
+          appState.currentView = 'app';
+          initUserProfile();
+          switchTab('dashboard');
+        });
+      }, 500);
+    }
+
+    // Update Profile and header controls dynamically
+    function initUserProfile() {
+      const profileStr = localStorage.getItem('userProfile');
+      const currentUserStr = localStorage.getItem('currentUser');
+      
+      if (profileStr) {
+        const profile = JSON.parse(profileStr);
+        
+        // Dynamic dashboard overview headers
+        const subtitle = document.getElementById('app-view-subtitle');
+        if (subtitle) {
+          subtitle.textContent = `Welcome back, ${profile.name || 'Traveller'} ✈️`;
+        }
+        
+        // Profile configurations updating elements
+        const profName = document.getElementById('profile-name');
+        if (profName) profName.textContent = profile.name || 'Traveller';
+        
+        if (currentUserStr) {
+          const userObj = JSON.parse(currentUserStr);
+          const profEmail = document.getElementById('profile-email');
+          if (profEmail) profEmail.textContent = userObj.email || 'guest@wanderwise.local';
+        }
+        
+        const profPersona = document.getElementById('profile-persona');
+        if (profPersona) profPersona.textContent = profile.travelPersona || 'Explorer';
+        
+        // Set dynamic initials inside UI avatars
+        const initials = (profile.name || "TR").split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase();
+        document.querySelectorAll('button[onclick="switchTab(\'profile\')"]').forEach(btn => {
+          btn.textContent = initials;
+        });
+        
+        const profileAvatar = document.querySelector('#tab-content-profile .w-24.h-24');
+        if (profileAvatar) {
+          profileAvatar.innerHTML = `${initials}<span class="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-4 border-white"></span>`;
+        }
+
+        // ==============================================
+        // DYNAMIC ONBOARDING DETAILS ON DASHBOARD VIEW
+        // ==============================================
+        
+        // 1. Snapshot card details
+        const dashHome = document.getElementById('dash-homecity');
+        if (dashHome) dashHome.textContent = profile.homeCity || 'N/A';
+        
+        const dashDob = document.getElementById('dash-dob');
+        if (dashDob) {
+          const parts = (profile.dob || '').split('-');
+          if (parts.length === 3) {
+            dashDob.textContent = `${parts[2]}/${parts[1]}/${parts[0]}`;
+          } else {
+            dashDob.textContent = profile.dob || 'N/A';
+          }
+        }
+        
+        const dashBudget = document.getElementById('dash-budget');
+        if (dashBudget) dashBudget.textContent = `${profile.dailyBudget || 'N/A'} / day`;
+        
+        const dashStyle = document.getElementById('dash-style');
+        if (dashStyle) dashStyle.textContent = profile.travelStyle || 'Explore';
+        
+        const dashDuration = document.getElementById('dash-duration');
+        if (dashDuration) dashDuration.textContent = profile.tripDuration || 'Weekend';
+        
+        const dashCompanions = document.getElementById('dash-companions');
+        if (dashCompanions) dashCompanions.textContent = profile.companions || 'Solo';
+        
+        const dashLodgings = document.getElementById('dash-lodgings');
+        if (dashLodgings) {
+          dashLodgings.innerHTML = '';
+          const accs = profile.accommodation || [];
+          if (accs.length === 0) {
+            dashLodgings.innerHTML = `<span class="px-2 py-0.5 bg-gray-100 text-gray-400 rounded-md font-medium text-[10px]">None</span>`;
+          } else {
+            accs.forEach(acc => {
+              dashLodgings.innerHTML += `<span class="px-2 py-0.5 bg-primary/10 text-primary rounded-md font-semibold text-[10px] border border-primary/10">${acc}</span>`;
+            });
+          }
+        }
+        
+        const dashInterests = document.getElementById('dash-interests');
+        if (dashInterests) {
+          dashInterests.innerHTML = '';
+          const ints = profile.interests || [];
+          if (ints.length === 0) {
+            dashInterests.innerHTML = `<span class="px-2 py-0.5 bg-gray-100 text-gray-400 rounded-md font-medium text-[10px]">None</span>`;
+          } else {
+            ints.forEach(interest => {
+              dashInterests.innerHTML += `<span class="px-2 py-0.5 bg-coral-500/10 text-coral-500 rounded-md font-semibold text-[10px] border border-coral-500/10">${interest}</span>`;
+            });
+          }
+        }
+        
+        const dashDiet = document.getElementById('dash-diet');
+        if (dashDiet) {
+          const dicts = profile.foodPrefs || [];
+          dashDiet.textContent = dicts.length > 0 ? dicts.join(', ') : 'No Preference';
+        }
+        
+        const dashLanguages = document.getElementById('dash-languages');
+        if (dashLanguages) {
+          const langs = profile.languages || [];
+          dashLanguages.textContent = langs.length > 0 ? langs.join(', ') : 'English';
+        }
+        
+        const dashMobility = document.getElementById('dash-mobility');
+        if (dashMobility) {
+          const textMap = { 1: 'Low Threshold', 2: 'Moderate Pace', 3: 'High Vigor' };
+          dashMobility.textContent = textMap[profile.mobility] || 'Moderate Pace';
+        }
+
+        // 2. Travel Style badge details
+        const styleTraits = {
+          'Adventure': {
+            title: 'Elite Adventure Athlete',
+            desc: `Enjoys high-altitude trails, alpine climbs, water challenge zones, and rapid physical itineraries.`,
+            culture: 'Adaptive',
+            tempo: 'Intense Pace',
+            eco: 'Wilderness'
+          },
+          'Relaxation': {
+            title: 'Serene Sunset Unwinder',
+            desc: `Deeply values coastal views, wellness spa routes, tranquil garden reserves, and slow restorative walkabouts.`,
+            culture: 'Leisurely',
+            tempo: 'Gentle Rest',
+            eco: 'Eco Resorts'
+          },
+          'Cultural': {
+            title: 'Heritage & Arts Historian',
+            desc: `Thrives on classical monuments, ancient masonry libraries, local crafts, and storytelling museum paths.`,
+            culture: 'Premium',
+            tempo: 'Balanced',
+            eco: 'Historical'
+          },
+          'Foodie': {
+            title: 'Epicurean Gourmet Connoisseur',
+            desc: `Active search for authentic street side counters, organic coffee lines, and local culinary food walks.`,
+            culture: 'High Taste',
+            tempo: 'Leisurely',
+            eco: 'Organic'
+          },
+          'Backpacker': {
+            title: 'Spontaneous Global Nomad',
+            desc: `Thrives on winding routes, social hostel cultures, minimal carbon footprints, and local commuter secrets.`,
+            culture: 'Immersion',
+            tempo: 'Spontaneous',
+            eco: 'No-Trace'
+          },
+          'Luxury': {
+            title: 'VIP Tailored Connoisseur',
+            desc: `Prefers private transport services, high-end hotel suites, premium chefs, and custom dedicated guides.`,
+            culture: 'High-Touch',
+            tempo: 'At Discretion',
+            eco: 'Premium'
+          }
+        };
+
+        const activeStyle = profile.travelStyle || 'Cultural';
+        const traits = styleTraits[activeStyle] || styleTraits.Cultural;
+        
+        const dashTitle = document.getElementById('dash-persona-title');
+        if (dashTitle) dashTitle.textContent = profile.travelPersona || traits.title;
+        
+        const dashDesc = document.getElementById('dash-persona-desc');
+        if (dashDesc) {
+          dashDesc.textContent = `"${profile.name || 'User'} is an active ${profile.travelStyle} enthusiast: ${traits.desc}"`;
+        }
+        
+        const traitCulture = document.getElementById('dash-trait-culture');
+        if (traitCulture) traitCulture.textContent = traits.culture;
+        
+        const traitTempo = document.getElementById('dash-trait-tempo');
+        if (traitTempo) traitTempo.textContent = traits.tempo;
+        
+        const traitEco = document.getElementById('dash-trait-eco');
+        if (traitEco) traitEco.textContent = traits.eco;
+
+        const iconMap = {
+          'Adventure': 'mountain',
+          'Relaxation': 'sun',
+          'Cultural': 'landmark',
+          'Foodie': 'utensils',
+          'Backpacker': 'compass',
+          'Luxury': 'gem'
+        };
+        const activeIcon = iconMap[activeStyle] || 'compass';
+        const badgeIcon = document.getElementById('dash-badge-icon');
+        if (badgeIcon) {
+          badgeIcon.setAttribute('data-lucide', activeIcon);
+        }
+
+        // 3. Circular Total Saving & Budget Snapshot Ring integration
+        const symbols = { INR: '₹', USD: '$', EUR: '€', GBP: '£' };
+        const sym = symbols[profile.currency] || '₹';
+        const numDays = { 'Weekend': 2, '1 week': 7, '2 weeks': 14, '1 month+': 30 }[profile.tripDuration] || 5;
+        const dailyValStr = profile.dailyBudget ? profile.dailyBudget.replace(/[^\d]/g, '') : "2000";
+        const dailyVal = parseInt(dailyValStr) || 2000;
+        const totalAllotment = dailyVal * numDays;
+        
+        // Save computed details to global state
+        appState.totalAllotment = totalAllotment;
+        if (!appState.simulatedSpentAmount || appState.lastCurrency !== profile.currency) {
+          appState.simulatedSpentAmount = Math.round(totalAllotment * 0.72); // preset default 72% spent
+          appState.lastCurrency = profile.currency;
+        }
+        
+        const percentage = Math.round((appState.simulatedSpentAmount / totalAllotment) * 100);
+        const percentText = document.getElementById('budget-percentage-text');
+        if (percentText) percentText.textContent = `${percentage}%`;
+        
+        const ring = document.getElementById('budget-snap-ring');
+        if (ring) {
+          const circumference = 2 * Math.PI * 40;
+          const offset = circumference - (percentage / 100) * circumference;
+          ring.style.strokeDashoffset = offset;
+        }
+
+        const allotmentEl = document.getElementById('budget-snap-allotment');
+        if (allotmentEl) allotmentEl.textContent = `${sym}${totalAllotment.toLocaleString()}`;
+        
+        const spentSubEl = document.getElementById('budget-snap-spent-sub');
+        if (spentSubEl) {
+          spentSubEl.textContent = `Spent ${sym}${appState.simulatedSpentAmount.toLocaleString()} of ${sym}${totalAllotment.toLocaleString()}`;
+        }
+
+        // Reflow dynamic icons
+        lucide.createIcons();
+      }
+    }
+
+    // Switch Tabs inside View 2 (vanilla router updating content panes dynamically)
+    function switchTab(tabId) {
+      appState.currentTab = tabId;
+      
+      // Target text nodes
+      const appTitle = document.getElementById('app-view-title');
+      const appSub = document.getElementById('app-view-subtitle');
+      
+      // Dynamic profile name loading fallback
+      const profileStr = localStorage.getItem('userProfile');
+      let profileName = 'Alex Mercer';
+      if (profileStr) {
+        const profile = JSON.parse(profileStr);
+        profileName = profile.name || 'Traveller';
+      }
+      
+      const titleSchema = {
+        'dashboard': { t: 'Dashboard Overview', s: `Welcome back, ${profileName} 🌲` },
+        'trips': { t: 'Your Planned Sagas', s: 'AI generated itineraries & destination bookmark charts' },
+        'explore': { t: 'Smart City Explorer', s: 'Tailor daily travel slots, check budget ring coordinates' },
+        'concierge': { t: 'AI Concierge Desk', s: 'Consult your custom traveling butler Globi instantly' },
+        'profile': { t: 'My Profile Controls', s: 'Configure travel badges and active personification stats' }
+      };
+      
+      if (titleSchema[tabId]) {
+        if (appTitle) appTitle.textContent = titleSchema[tabId].t;
+        if (appSub) appSub.textContent = titleSchema[tabId].s;
+      }
+      
+      // Hide inactive panels
+      const panels = document.querySelectorAll('.tab-panel');
+      panels.forEach(p => p.classList.add('hidden'));
+      
+      // Show corresponding active tab panel
+      const targetPanel = document.getElementById(`tab-content-${tabId}`);
+      if (targetPanel) {
+        targetPanel.classList.remove('hidden');
+      }
+      
+      updateSidebarNavColors();
+    }
+
+    function updateSidebarNavColors() {
+      // Desktop left rail
+      const dButtons = document.querySelectorAll('#desktop-sidebar-nav .tab-btn');
+      dButtons.forEach(btn => {
+        const btnTabId = btn.getAttribute('data-tab');
+        if (btnTabId === appState.currentTab) {
+          btn.className = "tab-btn w-full flex items-center space-x-3 px-4 py-3 text-sm font-semibold transition-all active-tab";
+        } else {
+          btn.className = "tab-btn w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium transition text-slate-400 hover:bg-white/5 hover:text-white";
+        }
+      });
+      
+      // Mobile bottom rail
+      const mButtons = document.querySelectorAll('.mobile-tab-btn');
+      mButtons.forEach(btn => {
+        const btnTabId = btn.getAttribute('data-mobile-tab');
+        if (btnTabId === appState.currentTab) {
+          btn.className = "mobile-tab-btn flex flex-col items-center justify-center text-primary scale-100 transition duration-300";
+        } else {
+          btn.className = "mobile-tab-btn flex flex-col items-center justify-center text-gray-400 focus:outline-none transition scale-90";
+        }
+      });
+    }
+
+    // Simple Budget radial Ring slider computation
+    function updateInteractiveRing(progressVal) {
+      const ring = document.getElementById('explore-budget-ring');
+      const labelText = document.getElementById('interactive-spent-text');
+      const textVal = document.getElementById('slider-percentage-val');
+      
+      // Dasharray count formulas (Circumference 2 * PI * r)
+      const circumference = 2 * Math.PI * 40; // 251.2
+      const offset = circumference - (progressVal / 100) * circumference;
+      
+      ring.style.strokeDashoffset = offset;
+      labelText.textContent = `${progressVal}%`;
+      textVal.textContent = `${progressVal}%`;
+    }
+
+    // Active Search Filtering logs
+    function setSearchFilter(category, element) {
+      appState.searchFilter = category;
+      
+      // Active chip outline style
+      const chips = document.querySelectorAll('#category-chips .chip-btn');
+      chips.forEach(c => {
+        c.className = "chip-btn px-4 py-1.5 bg-gray-50 text-gray-500 text-xs font-semibold rounded-full border border-gray-100 hover:border-gray-200";
+      });
+      element.className = "chip-btn px-4 py-1.5 bg-primary text-white text-xs font-semibold rounded-full border border-primary";
+      
+      // Handle the timeline view cards representation
+      const cards = document.querySelectorAll('#itinerary-timeline-slots .card-item');
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        if (category === 'all' || cardCat === category) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // Quick Search click simulation
+    function simulateSearch() {
+      const query = document.getElementById('destination-search-input').value.trim();
+      if (!query) return;
+      
+      const timelineBox = document.getElementById('itinerary-timeline-slots');
+      
+      // Prepend dynamic custom card simulation
+      const searchItemHtml = `
+        <div class="relative space-y-2 card-item border-l-2 border-dashed border-teal-500 pl-4 py-1 animate-pulse" data-category="food">
+          <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-primary ring-4 ring-white"></span>
+          <div class="flex flex-wrap justify-between items-center gap-2">
+            <span class="text-xs font-mono font-bold text-primary">Dynamic Match</span>
+            <span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold uppercase rounded-md">AI Auto-Injected</span>
+          </div>
+          <h4 class="text-base font-bold text-navy-900">Custom Search Match: "${query}"</h4>
+          <p class="text-xs text-gray-400 font-light leading-relaxed">
+            Highly suggest to coordinate visit around evening transitions. Traditional culinary stand matches query.
+          </p>
+        </div>
+      `;
+      timelineBox.insertAdjacentHTML('afterbegin', searchItemHtml);
+      document.getElementById('destination-search-input').value = "";
+      lucide.createIcons();
+    }
+
+    // Spot Expense simulation
+    function simulateExpense() {
+      const profileStr = localStorage.getItem('userProfile');
+      let currencySymbol = '₹';
+      let increment = 500;
+      let totalAllotment = appState.totalAllotment || 15000;
+      
+      if (profileStr) {
+        const profile = JSON.parse(profileStr);
+        const symbols = { INR: '₹', USD: '$', EUR: '€', GBP: '£' };
+        currencySymbol = symbols[profile.currency] || '₹';
+        increment = profile.currency === 'INR' ? 500 : 25;
+      }
+      
+      appState.simulatedSpentAmount += increment;
+      if (appState.simulatedSpentAmount > totalAllotment) {
+        appState.simulatedSpentAmount = totalAllotment;
+        showToast("WanderWise budget ceiling reached!", "error");
+      } else {
+        showToast(`Logged spot expense of ${currencySymbol}${increment}!`, "success");
+      }
+      
+      const percentage = Math.round((appState.simulatedSpentAmount / totalAllotment) * 100);
+      
+      // Update dashboard values
+      const percentText = document.getElementById('budget-percentage-text');
+      if (percentText) percentText.textContent = `${percentage}%`;
+      
+      const ring = document.getElementById('budget-snap-ring');
+      if (ring) {
+        const circumference = 2 * Math.PI * 40;
+        const offset = circumference - (percentage / 100) * circumference;
+        ring.style.strokeDashoffset = offset;
+      }
+      
+      const spentSubEl = document.getElementById('budget-snap-spent-sub');
+      if (spentSubEl) {
+        spentSubEl.textContent = `Spent ${currencySymbol}${appState.simulatedSpentAmount.toLocaleString()} of ${currencySymbol}${totalAllotment.toLocaleString()}`;
+      }
+    }
+
+    // Retrigger Onboarding questionnaire
+    function retriggerOnboarding() {
+      const profileStr = localStorage.getItem('userProfile');
+      if (profileStr) {
+        const profile = JSON.parse(profileStr);
+        // Pre-populate obState with active profile coordinates
+        obState.fullname = profile.name || '';
+        obState.dob = profile.dob || '';
+        obState.homeCity = profile.homeCity || '';
+        obState.currency = profile.currency || 'INR';
+        obState.travelStyle = profile.travelStyle || 'Adventure';
+        obState.tripDuration = profile.tripDuration || 'Weekend';
+        obState.budgetTier = profile.budgetTier || 'Budget';
+        obState.accommodation = profile.accommodation || [];
+        obState.companions = profile.companions || 'Solo';
+        obState.foodPrefs = profile.foodPrefs || [];
+        obState.interests = profile.interests || [];
+        obState.languages = profile.languages || [];
+        obState.mobility = profile.mobility || 2;
+      }
+      
+      transitionViews('app-view', 'onboarding-view', () => {
+        appState.currentView = 'onboarding';
+        
+        // Match input nodes
+        document.getElementById('ob-fullname').value = obState.fullname;
+        document.getElementById('ob-dob').value = obState.dob;
+        document.getElementById('ob-homecity').value = obState.homeCity;
+        
+        setObCurrency(obState.currency);
+        selectObStyle(obState.travelStyle);
+        setObDuration(obState.tripDuration);
+        selectObBudget(obState.budgetTier);
+        renderAccommodationChips();
+        setObCompanions(obState.companions);
+        renderFoodPrefs();
+        renderInterests();
+        renderLanguages();
+        document.getElementById('ob-mobility').value = obState.mobility;
+        updateObMobilityLabel(obState.mobility);
+        
+        renderStep(1);
+      });
+    }
+
+    // Chat room messaging code
+    function handleChatSubmit(e) {
+      e.preventDefault();
+      const textInput = document.getElementById('chat-input-text');
+      const query = textInput.value.trim();
+      if (!query) return;
+      
+      sendPresetMessage(query);
+      textInput.value = "";
+    }
+
+    function sendPresetMessage(msg) {
+      const messagesContainer = document.getElementById('chat-messages-container');
+      
+      // User Message bubble
+      const userHtml = `
+        <div class="flex items-start space-x-3 max-w-[85%] ml-auto justify-end">
+          <div class="bg-primary text-white p-3.5 rounded-2xl text-xs leading-relaxed shadow-sm">
+            ${msg}
+          </div>
+          <div class="w-8 h-8 rounded-lg bg-primary text-white font-bold flex items-center justify-center shrink-0 shadow">AM</div>
+        </div>
+      `;
+      messagesContainer.insertAdjacentHTML('beforeend', userHtml);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      
+      // Simulate Globi Typing Loader
+      const typingId = "typing-" + Date.now();
+      const typingHtml = `
+        <div class="flex items-start space-x-3 max-w-[85%]" id="${typingId}">
+          <div class="w-8 h-8 rounded-lg bg-navy-900 text-white font-bold flex items-center justify-center shrink-0">G</div>
+          <div class="bg-white p-3.5 rounded-2xl text-xs text-gray-400 italic shadow-sm flex items-center space-x-1 border border-gray-100">
+            <span>Globi is checking coordinates</span>
+            <span class="animate-bounce">.</span>
+            <span class="animate-bounce" style="animation-delay: 0.2s">.</span>
+            <span class="animate-bounce" style="animation-delay: 0.4s">.</span>
+          </div>
+        </div>
+      `;
+      messagesContainer.insertAdjacentHTML('beforeend', typingHtml);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      
+      // Auto reply templates
+      const replies = [
+        "That is an extraordinary question! The local coordinates flag low traffic indices right now. I highly recommend taking a 15-minute scooter detour to overlook the classic arches.",
+        "Excellent query! Paris locals suggest carrying small currency change (€5 notes) as tucked-away organic stands don't process standard credit registers. Weather is remaining 22°C.",
+        "Noted! I have updated your travel profile. The Gastronomic Nomad interest logs have bumped cultural food targets by 5%. Enjoy your wander!",
+        "Understood! Globi concierge logs flag secure index checks. No pickpockets reported nearby. Carry on with your scheduled Seine River loops."
+      ];
+      
+      const randomReply = replies[Math.floor(Math.random() * replies.length)];
+      
+      setTimeout(() => {
+        // Remove typing indicator loader
+        const loader = document.getElementById(typingId);
+        if (loader) loader.remove();
+        
+        // Append Globi Reply bubble HTML
+        const replyHtml = `
+          <div class="flex items-start space-x-3 max-w-[85%]">
+            <div class="w-8 h-8 rounded-lg bg-navy-900 text-white font-bold flex items-center justify-center shrink-0 shadow">G</div>
+            <div class="bg-white p-3.5 rounded-2xl text-xs text-navy-900 border border-gray-100 leading-relaxed shadow-sm">
+              <span class="block text-[10px] text-coral-500 font-bold uppercase tracking-wide mb-1 flex items-center"><i data-lucide="sparkles" class="w-3 h-3 mr-1"></i> Smart Answer</span>
+              ${randomReply}
+            </div>
+          </div>
+        `;
+        messagesContainer.insertAdjacentHTML('beforeend', replyHtml);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        lucide.createIcons();
+      }, 1400);
+    }
+  </script>
+</body>
+</html>
